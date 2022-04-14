@@ -19,3 +19,4 @@ MIT Licensed
 
 * Ideas
 - Add a noise layer that serves as an attractor for turning direction preference. May allow for more natural looking room systems.
+- Prune unneeded spindly hallways

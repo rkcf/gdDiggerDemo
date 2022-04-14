@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://scenes/DiggerManager.gd" type="Script" id=1]
 [ext_resource path="res://common/assets/tilemap.tres" type="TileSet" id=2]
 [ext_resource path="res://common/assets/panel.png" type="Texture" id=3]
 [ext_resource path="res://common/fonts/VCR_OSD_MONO_1.001.ttf" type="DynamicFontData" id=4]
+[ext_resource path="res://scenes/Camera.gd" type="Script" id=5]
 
 [sub_resource type="DynamicFont" id=2]
 size = 32
@@ -99,6 +100,11 @@ margin_right = 399.0
 margin_bottom = 104.0
 text = "Number of Generations
 "
+
+[node name="Camera" type="Camera2D" parent="."]
+anchor_mode = 0
+current = true
+script = ExtResource( 5 )
 
 [connection signal="pressed" from="UI/Control/NinePatchRect/MarginContainer/VBoxContainer/GenerateButton" to="." method="_on_GenerateButton_pressed"]
 [connection signal="value_changed" from="UI/Control/NinePatchRect/MarginContainer/VBoxContainer/HBoxContainer/Generations/Generations" to="." method="_on_Generations_value_changed"]
