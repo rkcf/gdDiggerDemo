@@ -73,7 +73,7 @@ func move() -> void:
 	if boundary.has_point(target_position):
 		self.position = target_position
 		 # TODO fix not drawing movement
-		body.position = target_position * 32 
+		body.position += (direction * 32)
 		
 		self.steps_since_turn += 1
 	else:

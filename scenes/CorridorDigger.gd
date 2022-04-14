@@ -9,6 +9,7 @@ func spawn(starting_position: Vector2, new_boundary: Rect2, new_map: TileMap) ->
 	randomize()
 	print("Spawning new Corridor Digger")
 	self.position = starting_position
+	body.position = starting_position * 32
 	self.boundary = new_boundary
 	self.tile_map = new_map
 	

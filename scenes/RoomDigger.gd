@@ -61,5 +61,6 @@ func dig_room(room: Room2D) -> void:
 			var next_dig = room.position + Vector2(x, y)
 			if self.boundary.has_point(next_dig):
 				self.position = next_dig
+				body.position = next_dig * 32
 				dig()
 				yield(get_tree().create_timer(self.wait_time), "timeout")
