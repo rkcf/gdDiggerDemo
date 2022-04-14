@@ -20,11 +20,11 @@ var tile_map: TileMap
 var wait_time: float = .01 # number of seconds inbetween digs for visualization
 
 # weighting targets for dynamicly weighted turn direction preference
-var up_target: float = 0.25
-var down_target: float = 0.25
-var left_target: float = 0.25
-var right_target: float = 0.25
-var target_weights: Array = [up_target, down_target, left_target, right_target]
+var up_target: float = 0.3
+var down_target: float = 0.2
+var left_target: float = 0.3
+var right_target: float = 0.2
+var target_weights: Array = []
 
 var rng: RandomNumberGenerator = RandomNumberGenerator.new()
 
@@ -32,6 +32,13 @@ onready var body: KinematicBody2D = $Body
 
 
 func _ready() -> void:
+	# Each digger gets fresh target weights
+	target_weights = [up_target, down_target, left_target, right_target]
+#	self.up_target = target_weights[0]
+#	self.down_target = target_weights[1]
+#	self.left_target = target_weights[2]
+#	self.right_target = target_weights[3]
+	
 	randomize()
 	rng.randomize()
 
@@ -39,10 +46,6 @@ func _ready() -> void:
 # Create a new Digger
 func spawn(starting_position: Vector2, new_boundary: Rect2, new_map: TileMap) -> void:
 	print("Spawning new Digger")
-
-	randomize()
-	directions = DIRECTIONS.duplicate()
-	directions.shuffle()
 
 	self.position = starting_position
 	body.position = starting_position * 32
@@ -96,26 +99,39 @@ func move() -> void:
 # Sets the Digger direction to a new random direction
 func turn() -> void:
 	var new_direction: Vector2
-	print("target direction weights: %s, %s, %s, %s" % target_weights)
+	print("target direction weights: %s, %s, %s, %s" % [up_target, down_target, left_target, right_target])
 	
 	# These should add up to one
 #	assert(up_target + down_target + left_target + right_target == 1.0)
 	
-	 # get a random float between 0 and 1, use our weightings to determine where to go
+#	 # get a random float between 0 and 1, use our weightings to determine where to go
 	var weight = randf()
 	if weight < up_target:
 		new_direction = Vector2.UP
-		up_target -= 0.1 # take some weight away from this direction
+		self.down_target -= 0.2 # we really don't want to turn the opposite direction
+		self.up_target -= 0.1 # take some weight away from this direction
+		self.left_target += 0.15
+		self.right_target += 0.15
 	elif weight < up_target + down_target:
 		new_direction = Vector2.DOWN
-		down_target -= 0.1
+		self.up_target -= 0.2
+		self.down_target -= 0.1
+		self.left_target += 0.15
+		self.right_target += 0.15
 	elif weight < up_target + down_target + left_target:
 		new_direction = Vector2.LEFT
-		left_target -= 0.1
-	elif weight < 1.0:
-		new_direction = Vector2.RIGHT
-		right_target -= 0.1
-	target_weights[randi() % 4] += 0.1 # give it to someone else (including getting it back)
+		self.right_target -= 0.2
+		self.left_target -= 0.1
+		self.up_target += 0.15
+		self.down_target += 0.15
 
+	elif weight < 10.0: # FIXME have some issues where weights add up to more than one. should be < 1.0
+		new_direction = Vector2.RIGHT
+		self.left_target -= 0.2
+		self.right_target -= 0.1
+		self.up_target += 0.15
+		self.down_target += 0.15
+
+	print("target direction weights: %s, %s, %s, %s" % [up_target, down_target, left_target, right_target])
 	self.direction = new_direction
 	self.steps_since_turn = 0
