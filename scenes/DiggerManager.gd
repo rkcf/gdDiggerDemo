@@ -5,7 +5,7 @@ extends Node
 export (int) var max_width = 60
 export (int) var max_height = 34
 export (int) var cell_size = 32
-export (int) var n_generations = 9 # total number of room diggers to spawn
+export (int) var n_generations = 3 # total number of generations of room diggers
 
 
 var level_boundary: Rect2
@@ -22,12 +22,18 @@ func _ready() -> void:
 func generate_level() -> void:
 	# Spawn an initial room digger
 	var start_position: Vector2 = Vector2(round(rand_range(1, max_width - 1)), round(rand_range(1, max_height - 1)))
+	var room: Room2D = null
 	while n_generations > 0:
-		create_room(start_position)
+		room = create_room(start_position)
+		# set the start position for the next generation to be in the last room generated in the current generation
+		var randx = round(rand_range(0, room.size.x - 1))
+		var randy = round(rand_range(0, room.size.y - 1))
+		var room_position: Vector2 = room.position + Vector2(randx, randy)
+		start_position = room_position
 		n_generations -= 1
 
 
-func create_room(start_position: Vector2) -> void:
+func create_room(start_position: Vector2) -> Room2D:
 	var rd: RoomDigger = spawn_room_digger(start_position)
 	rd.live()
 	# Spawn random number of corridor diggers
@@ -38,7 +44,7 @@ func create_room(start_position: Vector2) -> void:
 		# spawn a new room digger at the end of the corridor
 		rd = spawn_room_digger(cd.position)
 		rd.live()
-
+	return(rd.room)
 
 func spawn_room_digger(start_position: Vector2) -> RoomDigger:
 	var digger: RoomDigger = RoomDigger.new()
