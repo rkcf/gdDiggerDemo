@@ -68,6 +68,7 @@ func dig_room(room: Room2D) -> void:
 			var next_next_dig: Vector2 = next_dig + Vector2.DOWN # we can see through walls to see if there is something built aready
 			# TODO Prevent issue where we do not connect to corridor because of this check
 			# TODO check if cell is room or corridor
+			# TODO cbeck all directions instead of just down
 			if tile_map.get_cellv(next_next_dig) == -1:
 				break
 			if self.boundary.has_point(next_dig):

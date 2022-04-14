@@ -20,3 +20,4 @@ MIT Licensed
 * Ideas
 - Add a noise layer that serves as an attractor for turning direction preference. May allow for more natural looking room systems.
 - Prune unneeded spindly hallways
+- As corridor digger tunnels around, they stop and think to themselves: is this a good place to build a room? If so they destroy themselves and spawn a room builder

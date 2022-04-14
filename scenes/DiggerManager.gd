@@ -23,12 +23,8 @@ onready var max_width_input: SpinBox = $UI/Control/NinePatchRect/MarginContainer
 onready var max_height_input: SpinBox = $UI/Control/NinePatchRect/MarginContainer/VBoxContainer/HBoxContainer/Height/Height
 
 
-
-
-
 func _ready() -> void:
 	self.level_boundary = Rect2(1, 1, max_width - 2, max_height - 2)
-
 
 # Main level generation function
 func generate_level() -> void:
@@ -48,17 +44,19 @@ func generate_level() -> void:
 		if room == null:
 			break
 
-		# Spawn random number of corridor diggers
-		var n_corridor_diggers: int = round(rand_range(0.5, 4))
+		# Spawn random number of corridor diggers, M=3 SD=2
+		var n_corridor_diggers: int = round(rng.randfn(3, 2))
 		var cd: CorridorDigger
 		for i in range(0, n_corridor_diggers):
-			# TODO FIXME periodic bug where we get to this point when room == null even with previous check 
-			cd = spawn_corridor_digger(room.random_position())
-			cd.live()
-			yield(cd, "digger_died")
-			room = create_room(cd.position)
-			if room == null:
-				break
+			# TODO FIXME periodic bug where we get to this point when room == null even with previous check
+			var rand_wall = room.random_wall()
+			if self.level_boundary.has_point(rand_wall):
+				cd = spawn_corridor_digger(room.random_wall())
+				cd.live()
+				yield(cd, "digger_died")
+				room = create_room(cd.position)
+				if room == null:
+					break
 
 		# set the start position for the next generation to be in the last room generated in the current generation
 		if room:

@@ -72,7 +72,6 @@ func move() -> void:
 	# Check that the target is inside our border
 	if boundary.has_point(target_position):
 		self.position = target_position
-		 # TODO fix not drawing movement
 		body.position += (direction * 32)
 		
 		self.steps_since_turn += 1
@@ -88,6 +87,8 @@ func turn() -> void:
 
 # Take the direction out of the array to avvoid picking it multiple times
 	var new_direction = directions.pop_front()
+#	var new_direction = directions[0]
+#	directions.shuffle()
 
 	self.direction = new_direction
 	self.steps_since_turn = 0
