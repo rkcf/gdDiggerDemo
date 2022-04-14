@@ -31,7 +31,9 @@ func spawn(starting_position: Vector2, new_boundary: Rect2, new_map: TileMap) ->
 func live() -> void:
 	while life_length > 0:
 		move()
-		dig()
+		# See if we have already dug here
+		if tile_map.get_cellv(self.position) != tile_map.INVALID_CELL:
+			dig()
 		if steps_since_turn >= max_steps_to_turn:
 			turn()
 	destroy()
