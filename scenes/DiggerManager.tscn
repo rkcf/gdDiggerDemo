@@ -47,7 +47,8 @@ theme = SubResource( 3 )
 anchor_top = 1.0
 anchor_bottom = 1.0
 margin_top = -210.0
-margin_right = 600.0
+margin_right = 800.0
+margin_bottom = -10.0
 texture = ExtResource( 3 )
 patch_margin_left = 10
 patch_margin_top = 10
@@ -67,8 +68,8 @@ custom_constants/margin_bottom = 16
 [node name="VBoxContainer" type="VBoxContainer" parent="UI/Control/NinePatchRect/MarginContainer"]
 margin_left = 16.0
 margin_top = 16.0
-margin_right = 584.0
-margin_bottom = 194.0
+margin_right = 786.0
+margin_bottom = 184.0
 
 [node name="GenerateButton" type="Button" parent="UI/Control/NinePatchRect/MarginContainer/VBoxContainer"]
 margin_right = 164.0
@@ -79,15 +80,15 @@ text = "Generate"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="UI/Control/NinePatchRect/MarginContainer/VBoxContainer"]
 margin_top = 39.0
-margin_right = 568.0
+margin_right = 770.0
 margin_bottom = 143.0
 
 [node name="Generations" type="VBoxContainer" parent="UI/Control/NinePatchRect/MarginContainer/VBoxContainer/HBoxContainer"]
-margin_right = 399.0
+margin_right = 254.0
 margin_bottom = 104.0
 
 [node name="Generations" type="SpinBox" parent="UI/Control/NinePatchRect/MarginContainer/VBoxContainer/HBoxContainer/Generations"]
-margin_right = 399.0
+margin_right = 254.0
 margin_bottom = 39.0
 min_value = 1.0
 max_value = 20.0
@@ -96,10 +97,51 @@ allow_greater = true
 
 [node name="Label" type="Label" parent="UI/Control/NinePatchRect/MarginContainer/VBoxContainer/HBoxContainer/Generations"]
 margin_top = 43.0
-margin_right = 399.0
+margin_right = 254.0
 margin_bottom = 104.0
-text = "Number of Generations
+text = "# Generations
 "
+
+[node name="Width" type="VBoxContainer" parent="UI/Control/NinePatchRect/MarginContainer/VBoxContainer/HBoxContainer"]
+margin_left = 258.0
+margin_right = 512.0
+margin_bottom = 104.0
+
+[node name="Width" type="SpinBox" parent="UI/Control/NinePatchRect/MarginContainer/VBoxContainer/HBoxContainer/Width"]
+margin_right = 254.0
+margin_bottom = 39.0
+min_value = 10.0
+step = 10.0
+value = 60.0
+allow_greater = true
+
+[node name="Label" type="Label" parent="UI/Control/NinePatchRect/MarginContainer/VBoxContainer/HBoxContainer/Width"]
+margin_top = 43.0
+margin_right = 254.0
+margin_bottom = 104.0
+text = "Width
+"
+align = 1
+
+[node name="Height" type="VBoxContainer" parent="UI/Control/NinePatchRect/MarginContainer/VBoxContainer/HBoxContainer"]
+margin_left = 516.0
+margin_right = 770.0
+margin_bottom = 104.0
+
+[node name="Height" type="SpinBox" parent="UI/Control/NinePatchRect/MarginContainer/VBoxContainer/HBoxContainer/Height"]
+margin_right = 254.0
+margin_bottom = 39.0
+min_value = 10.0
+step = 10.0
+value = 40.0
+allow_greater = true
+
+[node name="Label" type="Label" parent="UI/Control/NinePatchRect/MarginContainer/VBoxContainer/HBoxContainer/Height"]
+margin_top = 43.0
+margin_right = 254.0
+margin_bottom = 72.0
+text = "Height"
+align = 1
 
 [node name="Camera" type="Camera2D" parent="."]
 anchor_mode = 0
@@ -108,3 +150,5 @@ script = ExtResource( 5 )
 
 [connection signal="pressed" from="UI/Control/NinePatchRect/MarginContainer/VBoxContainer/GenerateButton" to="." method="_on_GenerateButton_pressed"]
 [connection signal="value_changed" from="UI/Control/NinePatchRect/MarginContainer/VBoxContainer/HBoxContainer/Generations/Generations" to="." method="_on_Generations_value_changed"]
+[connection signal="value_changed" from="UI/Control/NinePatchRect/MarginContainer/VBoxContainer/HBoxContainer/Width/Width" to="." method="_on_Width_value_changed"]
+[connection signal="value_changed" from="UI/Control/NinePatchRect/MarginContainer/VBoxContainer/HBoxContainer/Height/Height" to="." method="_on_Height_value_changed"]

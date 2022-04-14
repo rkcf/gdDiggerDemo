@@ -2,8 +2,8 @@ class_name DiggerManager
 extends Node
 
 
-export (int) var max_width = 60
-export (int) var max_height = 34
+export (int) var max_width = 60 setget set_max_width
+export (int) var max_height = 40 setget set_max_height
 export (int) var cell_size = 32
 export (int) var n_generations = 2 setget set_n_generations# total number of generations of room diggers
 
@@ -19,6 +19,12 @@ onready var rooms_tile_map: TileMap = $RoomsTileMap
 onready var corridors_tile_map: TileMap = $CorridorsTileMap
 onready var diggers: Node = $Diggers # Digger node container
 onready var generation_input: SpinBox = $UI/Control/NinePatchRect/MarginContainer/VBoxContainer/HBoxContainer/Generations/Generations
+onready var max_width_input: SpinBox = $UI/Control/NinePatchRect/MarginContainer/VBoxContainer/HBoxContainer/Width/Width
+onready var max_height_input: SpinBox = $UI/Control/NinePatchRect/MarginContainer/VBoxContainer/HBoxContainer/Height/Height
+
+
+
+
 
 func _ready() -> void:
 	self.level_boundary = Rect2(1, 1, max_width - 2, max_height - 2)
@@ -110,6 +116,18 @@ func set_n_generations(value: int) -> void:
 	generation_input.value = value
 
 
+func set_max_width(value: int) -> void:
+	max_width = value
+	max_width_input.value = value
+	self.level_boundary = Rect2(1, 1, max_width - 2, max_height - 2)
+
+
+func set_max_height(value: int) -> void:
+	max_height = value
+	max_height_input.value = value
+	self.level_boundary = Rect2(1, 1, max_width - 2, max_height - 2)
+
+
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_select"): # space bar
 		reload()
@@ -122,3 +140,12 @@ func _on_GenerateButton_pressed() -> void:
 
 func _on_Generations_value_changed(value: float) -> void:
 	self.n_generations = round(value)
+
+
+func _on_Width_value_changed(value: float) -> void:
+	self.max_width = round(value)
+	
+
+
+func _on_Height_value_changed(value: float) -> void:
+	self.max_height = round(value)
