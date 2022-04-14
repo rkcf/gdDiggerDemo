@@ -20,13 +20,12 @@ onready var diggers: Node = $Diggers # Digger node container
 onready var generation_input: SpinBox = $UI/Control/NinePatchRect/MarginContainer/VBoxContainer/HBoxContainer/Generations/Generations
 
 func _ready() -> void:
-	rng.randomize()
 	self.level_boundary = Rect2(1, 1, max_width - 2, max_height - 2)
 
 
 # Main level generation function
 func generate_level() -> void:
-
+	rng.randomize()
 	# Spawn an initial room digger somewhere around the middle
 	var startx: int = round(rng.randfn(max_width / 4, max_width / 10))
 	var starty: int = round(rng.randfn(max_height / 4, max_height / 10))
@@ -38,7 +37,7 @@ func generate_level() -> void:
 		room = create_room(start_position)
 
 		# Spawn random number of corridor diggers
-		var n_corridor_diggers: int = round(rand_range(0.5, 3))
+		var n_corridor_diggers: int = round(rand_range(0.5, 4))
 		var cd: CorridorDigger
 		for i in range(0, n_corridor_diggers):
 			cd = spawn_corridor_digger(room.random_position())

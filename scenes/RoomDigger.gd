@@ -2,8 +2,8 @@ class_name RoomDigger
 extends Digger
 
 
-var max_room_size: int = 8
-var min_room_size: int = 4
+var max_room_size: int = 10
+var min_room_size: int = 2
 var room: Room2D
 
 
@@ -18,6 +18,7 @@ func create_room() -> Room2D:
 	# Get a random width and height
 	var width: int = round(rand_range(min_room_size, max_room_size))
 	var height: int = round(rand_range(min_room_size, max_room_size))
+
 	
 	# TODO Fix this, make sure rooms are always positioned within the boundary
 	print(position)
@@ -31,17 +32,21 @@ func create_room() -> Room2D:
 		if width < 1:
 			break
 	
+	# find a new width in the narrower range
+	width = round(rand_range(min_room_size, width))
+	
+	
 	height = max_room_size
 	while not boundary.has_point(Vector2(position.x, position.y + height)):
 		height -= 1
 		# abandon making the room if it is too small
 		if height < 1:
 			break
-	
+	height = round(rand_range(min_room_size, height))
 	# Make sure width and height are within boundary
 	assert(boundary.has_point(Vector2(position.x + width, position.y)))
 	assert(boundary.has_point(Vector2(position.x, position.y + height)))
-	
+	print("size: %s, %s" % [width, height])
 	# Create the size vector
 	var size: Vector2 = Vector2(width, height)
 	# Find the top left corner to store the position

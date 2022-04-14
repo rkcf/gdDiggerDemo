@@ -8,6 +8,7 @@ var area: Rect2
 
 
 func _init(position: Vector2, size: Vector2):
+	randomize()
 	self.position = position
 	self.size = size
 	self.area = Rect2(self.position, self.size)
