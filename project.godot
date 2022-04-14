@@ -13,9 +13,15 @@ _global_script_classes=[ {
 "class": "Digger",
 "language": "GDScript",
 "path": "res://scenes/Digger.gd"
+}, {
+"base": "Node",
+"class": "DiggerManager",
+"language": "GDScript",
+"path": "res://scenes/DiggerManager.gd"
 } ]
 _global_script_class_icons={
-"Digger": ""
+"Digger": "",
+"DiggerManager": ""
 }
 
 [application]
