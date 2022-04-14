@@ -24,6 +24,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scenes/DiggerManager.gd"
 }, {
+"base": "Node",
+"class": "Room2D",
+"language": "GDScript",
+"path": "res://scenes/Room2D.gd"
+}, {
 "base": "Digger",
 "class": "RoomDigger",
 "language": "GDScript",
@@ -33,6 +38,7 @@ _global_script_class_icons={
 "CorridorDigger": "",
 "Digger": "",
 "DiggerManager": "",
+"Room2D": "",
 "RoomDigger": ""
 }
 
