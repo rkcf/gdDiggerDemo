@@ -4,11 +4,21 @@ extends Digger
 
 var max_room_size: int = 15
 var min_room_size: int = 4
+var n_corridor_diggers: int # number of corridor diggers to spawn on death
 
 
 func live() -> void:
 	dig_room()
 	destroy()
+
+
+func destroy() -> void:
+	# spawn between 1 and 4 corridor diggers
+	self.n_corridor_diggers = round(rand_range(0, 4))
+	for i in range(n_corridor_diggers):
+		spawn_corridor_digger()
+	# destroy self
+	queue_free()
 
 
 func dig_room() -> void:
@@ -23,5 +33,9 @@ func dig_room() -> void:
 			if self.boundary.has_point(next_dig):
 				self.position = next_dig
 				dig()
-				
-	
+
+
+func spawn_corridor_digger() -> void:
+	var digger = CorridorDigger.new()
+	digger.spawn(self.position, self.boundary, self.tile_map)
+	digger.live()

@@ -21,10 +21,11 @@ func _ready() -> void:
 # Main level generation function
 func generate_level() -> void:
 	# Spawn an initial room digger
-	var digger: Digger = Digger.new()
+	var digger: RoomDigger = RoomDigger.new()
 	# Get a random starting location
 	var start_position: Vector2 = Vector2(round(rand_range(1, max_width - 1)), round(rand_range(1, max_height - 1)))
 	digger.spawn(start_position, level_boundary, tile_map)
+	digger.live()
 
 # Reload the scene tree
 func reload() -> void:

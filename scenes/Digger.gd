@@ -10,8 +10,8 @@ var direction: Vector2 # Diggers current direction
 var dig_history: Array = [] # A list of positions the Digger has dug
 var boundary: Rect2 # The limits of where the Digger can go
 var steps_since_turn: int # number of steps since Digger last turned
-var max_steps_to_turn: int # maximum number of steps until turn
-var life_length: int = 500 # number of tiles to dig before destructing
+var max_steps_to_turn: int = 2 # maximum number of steps until turn
+var life_length: int = 300 # number of tiles to dig before destructing
 var tile_map: TileMap
 
 # Create a new Digger
@@ -25,7 +25,7 @@ func spawn(starting_position: Vector2, new_boundary: Rect2, new_map: TileMap) ->
 	turn()
 	# Always dig out the starting tile
 	dig()
-	live()
+
 
 # Main running loop fod Digger
 func live() -> void:

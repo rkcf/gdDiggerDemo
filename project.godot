@@ -9,6 +9,11 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Digger",
+"class": "CorridorDigger",
+"language": "GDScript",
+"path": "res://scenes/CorridorDigger.gd"
+}, {
 "base": "Node",
 "class": "Digger",
 "language": "GDScript",
@@ -18,10 +23,17 @@ _global_script_classes=[ {
 "class": "DiggerManager",
 "language": "GDScript",
 "path": "res://scenes/DiggerManager.gd"
+}, {
+"base": "Digger",
+"class": "RoomDigger",
+"language": "GDScript",
+"path": "res://scenes/RoomDigger.gd"
 } ]
 _global_script_class_icons={
+"CorridorDigger": "",
 "Digger": "",
-"DiggerManager": ""
+"DiggerManager": "",
+"RoomDigger": ""
 }
 
 [application]
