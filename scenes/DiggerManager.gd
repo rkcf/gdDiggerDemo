@@ -29,8 +29,12 @@ func generate_level() -> void:
 		var randx = round(rand_range(0, room.size.x - 1))
 		var randy = round(rand_range(0, room.size.y - 1))
 		var room_position: Vector2 = room.position + Vector2(randx, randy)
-		start_position = room_position
-		n_generations -= 1
+		# Make sure room_position is within boundaries
+		if self.level_boundary.has_point(room_position):
+			start_position = room_position
+			n_generations -= 1
+		else:
+			print("Early Generation Extinction")
 
 
 func create_room(start_position: Vector2) -> Room2D:
