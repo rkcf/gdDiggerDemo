@@ -64,6 +64,9 @@ func move() -> void:
 # Sets the Digger direction to a new random direction
 func turn() -> void:
 	var new_direction = DIRECTIONS[randi() % 4]
+	# Make sure we don't pick the same direction twice
+	while new_direction == self.direction:
+		new_direction = DIRECTIONS[randi() % 4]
 	print("Digger turning %s" % new_direction)
 	self.direction = new_direction
 	self.steps_since_turn = 0
