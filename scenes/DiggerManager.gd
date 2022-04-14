@@ -83,3 +83,7 @@ func reload() -> void:
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_accept"):
 		reload()
+
+
+func _on_GenerateButton_pressed() -> void:
+	reload()
