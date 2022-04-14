@@ -27,6 +27,7 @@ font_data = ExtResource( 4 )
 
 [sub_resource type="Theme" id=3]
 default_font = SubResource( 2 )
+Label/colors/font_color = Color( 0.0313726, 0.0156863, 0, 1 )
 
 [node name="DiggerManager" type="Node"]
 script = ExtResource( 1 )
@@ -86,15 +87,26 @@ text = "Generate"
 [node name="HBoxContainer" type="HBoxContainer" parent="UI/Control/NinePatchRect/MarginContainer/VBoxContainer"]
 margin_top = 39.0
 margin_right = 568.0
-margin_bottom = 78.0
+margin_bottom = 143.0
 
-[node name="Generations" type="SpinBox" parent="UI/Control/NinePatchRect/MarginContainer/VBoxContainer/HBoxContainer"]
-margin_right = 254.0
+[node name="Generations" type="VBoxContainer" parent="UI/Control/NinePatchRect/MarginContainer/VBoxContainer/HBoxContainer"]
+margin_right = 399.0
+margin_bottom = 104.0
+
+[node name="Generations" type="SpinBox" parent="UI/Control/NinePatchRect/MarginContainer/VBoxContainer/HBoxContainer/Generations"]
+margin_right = 399.0
 margin_bottom = 39.0
 min_value = 1.0
 max_value = 20.0
-value = 5.0
+value = 2.0
 allow_greater = true
 
+[node name="Label" type="Label" parent="UI/Control/NinePatchRect/MarginContainer/VBoxContainer/HBoxContainer/Generations"]
+margin_top = 43.0
+margin_right = 399.0
+margin_bottom = 104.0
+text = "Number of Generations
+"
+
 [connection signal="pressed" from="UI/Control/NinePatchRect/MarginContainer/VBoxContainer/GenerateButton" to="." method="_on_GenerateButton_pressed"]
-[connection signal="value_changed" from="UI/Control/NinePatchRect/MarginContainer/VBoxContainer/HBoxContainer/Generations" to="." method="_on_Generations_value_changed"]
+[connection signal="value_changed" from="UI/Control/NinePatchRect/MarginContainer/VBoxContainer/HBoxContainer/Generations/Generations" to="." method="_on_Generations_value_changed"]

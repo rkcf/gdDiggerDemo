@@ -5,9 +5,9 @@ extends Node
 export (int) var max_width = 60
 export (int) var max_height = 34
 export (int) var cell_size = 32
-export (int) var n_generations = 5 # total number of generations of room diggers
+export (int) var n_generations = 2 setget set_n_generations# total number of generations of room diggers
 
-
+var generations_left: int
 var level_boundary: Rect2
 
 var rng: RandomNumberGenerator = RandomNumberGenerator.new()
@@ -17,21 +17,24 @@ var corridor_digger = preload("res://scenes/CorridorDigger.tscn")
 
 onready var tile_map: TileMap = $TileMap
 onready var diggers: Node = $Diggers # Digger node container
-
+onready var generation_input: SpinBox = $UI/Control/NinePatchRect/MarginContainer/VBoxContainer/HBoxContainer/Generations/Generations
 
 func _ready() -> void:
 	rng.randomize()
 	self.level_boundary = Rect2(1, 1, max_width - 2, max_height - 2)
-	generate_level()
+
 
 # Main level generation function
 func generate_level() -> void:
+
 	# Spawn an initial room digger somewhere around the middle
 	var startx: int = round(rng.randfn(max_width / 4, max_width / 10))
 	var starty: int = round(rng.randfn(max_height / 4, max_height / 10))
 	var start_position: Vector2 = Vector2(startx, starty)
 	var room: Room2D = null
-	while n_generations > 0:
+	
+	self.generations_left = n_generations
+	while generations_left > 0:
 		room = create_room(start_position)
 
 		# Spawn random number of corridor diggers
@@ -50,7 +53,7 @@ func generate_level() -> void:
 		# Make sure room_position is within boundaries
 		if self.level_boundary.has_point(rand_room_pos):
 			start_position = rand_room_pos
-			n_generations -= 1
+			self.generations_left -= 1
 		else:
 			print("Early Generation Extinction")
 
@@ -78,7 +81,7 @@ func spawn_corridor_digger(start_position: Vector2) -> CorridorDigger:
 # Reload the scene tree
 func reload() -> void:
 	cleanup()
-	yield(get_tree().create_timer(1), "timeout") # Wait 1 second for cleanup
+#	yield(get_tree().create_timer(1), "timeout") # Wait 1 second for cleanup
 	generate_level()
 
 
@@ -90,6 +93,10 @@ func cleanup() -> void:
 			tile_map.set_cell(x, y, tile_map.get_tileset().get_tiles_ids()[0])
 
 
+func set_n_generations(value: int) -> void:
+	n_generations = value
+	generation_input.value = value
+
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_accept"):
@@ -98,6 +105,7 @@ func _input(event: InputEvent) -> void:
 
 func _on_GenerateButton_pressed() -> void:
 	reload()
+	
 
 
 func _on_Generations_value_changed(value: float) -> void:
