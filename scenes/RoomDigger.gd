@@ -2,8 +2,11 @@ class_name RoomDigger
 extends Digger
 
 
+
+
 var max_room_size: int = 14
 var min_room_size: int = 2
+var similar_sized_rooms: bool = false # Whether we want our room sizes to be around the average room size
 var room: Room2D
 
 
@@ -18,8 +21,15 @@ func live() -> void:
 # Make a new randomly generated Room2D object
 func create_room() -> Room2D:
 	# Get a random width and height
-	var width: int = round(rand_range(min_room_size, max_room_size))
-	var height: int = round(rand_range(min_room_size, max_room_size))
+	var width: int
+	var height: int
+	if similar_sized_rooms:
+		var average_room_size = (max_room_size - min_room_size ) / 2
+		width = round(rng.randfn(average_room_size, 2))
+		height = round(rng.randfn(average_room_size, 2))
+	else:
+		width = round(rand_range(min_room_size, max_room_size))
+		height = round(rand_range(min_room_size, max_room_size))
 
 	
 	# TODO Fix this, make sure rooms are always positioned within the boundary

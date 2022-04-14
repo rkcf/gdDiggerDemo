@@ -19,8 +19,15 @@ var life_length: int = 300 # number of tiles to dig before destructing
 var tile_map: TileMap
 var wait_time: float = .01 # number of seconds inbetween digs for visualization
 
+var rng: RandomNumberGenerator = RandomNumberGenerator.new()
 
 onready var body: KinematicBody2D = $Body
+
+
+func _ready() -> void:
+	randomize()
+	rng.randomize()
+
 
 # Create a new Digger
 func spawn(starting_position: Vector2, new_boundary: Rect2, new_map: TileMap) -> void:

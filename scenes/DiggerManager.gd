@@ -2,10 +2,10 @@ class_name DiggerManager
 extends Node
 
 
-export (int) var max_width = 60 setget set_max_width
-export (int) var max_height = 40 setget set_max_height
+export (int) var max_width = 300 setget set_max_width
+export (int) var max_height = 150 setget set_max_height
 export (int) var cell_size = 32
-export (int) var n_generations = 2 setget set_n_generations# total number of generations of room diggers
+export (int) var n_generations = 20 setget set_n_generations# total number of generations of room diggers
 
 var generations_left: int
 var level_boundary: Rect2
