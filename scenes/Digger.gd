@@ -19,6 +19,13 @@ var life_length: int = 300 # number of tiles to dig before destructing
 var tile_map: TileMap
 var wait_time: float = .01 # number of seconds inbetween digs for visualization
 
+# weighting targets for dynamicly weighted turn direction preference
+var up_target: float = 0.25
+var down_target: float = 0.25
+var left_target: float = 0.25
+var right_target: float = 0.25
+var target_weights: Array = [up_target, down_target, left_target, right_target]
+
 var rng: RandomNumberGenerator = RandomNumberGenerator.new()
 
 onready var body: KinematicBody2D = $Body
@@ -88,24 +95,27 @@ func move() -> void:
 
 # Sets the Digger direction to a new random direction
 func turn() -> void:
-	if directions.empty():
-		directions = DIRECTIONS.duplicate()
-		directions.shuffle()
-
-# Take the direction out of the array to avvoid picking it multiple times
-	var new_direction = directions.pop_front()
-#	var new_direction = directions[0]
-#	directions.shuffle()
-
+	var new_direction: Vector2
+	print("target direction weights: %s, %s, %s, %s" % target_weights)
+	
+	# These should add up to one
+#	assert(up_target + down_target + left_target + right_target == 1.0)
+	
+	 # get a random float between 0 and 1, use our weightings to determine where to go
 	var weight = randf()
-	if weight < 0.3:
+	if weight < up_target:
 		new_direction = Vector2.UP
-	elif weight < 0.6:
+		up_target -= 0.1 # take some weight away from this direction
+	elif weight < up_target + down_target:
 		new_direction = Vector2.DOWN
-	elif weight < 0.8:
+		down_target -= 0.1
+	elif weight < up_target + down_target + left_target:
 		new_direction = Vector2.LEFT
+		left_target -= 0.1
 	elif weight < 1.0:
 		new_direction = Vector2.RIGHT
+		right_target -= 0.1
+	target_weights[randi() % 4] += 0.1 # give it to someone else (including getting it back)
 
 	self.direction = new_direction
 	self.steps_since_turn = 0
