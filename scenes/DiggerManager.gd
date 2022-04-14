@@ -30,31 +30,42 @@ func generate_level() -> void:
 	var startx: int = round(rng.randfn(max_width / 4, max_width / 10))
 	var starty: int = round(rng.randfn(max_height / 4, max_height / 10))
 	var start_position: Vector2 = Vector2(startx, starty)
-	var room: Room2D = null
 	
 	self.generations_left = n_generations
 	while generations_left > 0:
+		var room: Room2D = null
 		room = create_room(start_position)
+		
+		# Make sure we could make the generation starting room
+		print(room)
+		if room == null:
+			break
 
 		# Spawn random number of corridor diggers
 		var n_corridor_diggers: int = round(rand_range(0.5, 4))
 		var cd: CorridorDigger
 		for i in range(0, n_corridor_diggers):
+			# TODO FIXME periodic bug where we get to this point when room == null even with previous check 
 			cd = spawn_corridor_digger(room.random_position())
 			cd.live()
 			yield(cd, "digger_died")
 			room = create_room(cd.position)
+			if room == null:
+				break
 
 		# set the start position for the next generation to be in the last room generated in the current generation
-		var rand_room_pos = room.random_position()
-		
-
-		# Make sure room_position is within boundaries
-		if self.level_boundary.has_point(rand_room_pos):
-			start_position = rand_room_pos
-			self.generations_left -= 1
+		if room:
+			var rand_room_pos = room.random_position()
+			
+			# Make sure room_position is within boundaries
+			if self.level_boundary.has_point(rand_room_pos):
+				start_position = rand_room_pos
+				self.generations_left -= 1
+			else:
+				print("Early Generation Extinction")
 		else:
-			print("Early Generation Extinction")
+			break
+
 
 
 func create_room(start_position: Vector2) -> Room2D:
