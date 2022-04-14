@@ -29,7 +29,6 @@ func spawn(starting_position: Vector2, new_boundary: Rect2, new_map: TileMap) ->
 	# Always dig out the starting tile
 	dig()
 
-
 # Main running loop fod Digger
 func live() -> void:
 	while life_length > 0:
@@ -41,8 +40,7 @@ func live() -> void:
 			turn()
 	destroy()
 
-
-
+# Called on the death of a digger
 func destroy() -> void:
 	# spawn new room digger
 	print("Digger Died")

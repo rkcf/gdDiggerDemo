@@ -4,7 +4,6 @@ extends Digger
 
 var corridor_width: int = 1
 
-
 # Create a new Digger
 func spawn(starting_position: Vector2, new_boundary: Rect2, new_map: TileMap) -> void:
 	randomize()

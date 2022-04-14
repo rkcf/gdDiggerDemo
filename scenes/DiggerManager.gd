@@ -8,7 +8,6 @@ export (int) var cell_size = 32
 export (int) var n_rooms = 9 # total number of room diggers to spawn
 
 
-
 var level_boundary: Rect2
 
 
@@ -55,6 +54,7 @@ func spawn_corridor_digger(start_position: Vector2) -> CorridorDigger:
 # Reload the scene tree
 func reload() -> void:
 	get_tree().reload_current_scene()
+
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_accept"):
