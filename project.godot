@@ -8,9 +8,20 @@
 
 config_version=4
 
+_global_script_classes=[ {
+"base": "Node",
+"class": "Digger",
+"language": "GDScript",
+"path": "res://scenes/Digger.gd"
+} ]
+_global_script_class_icons={
+"Digger": ""
+}
+
 [application]
 
 config/name="gdDiggerDemo"
+run/main_scene="res://scenes/DiggerManager.tscn"
 config/icon="res://icon.png"
 
 [display]
