@@ -20,3 +20,8 @@ func spawn(starting_position: Vector2, new_boundary: Rect2, new_map: TileMap) ->
 	# get an initial direction facing
 	turn()
 
+
+func destroy() -> void:
+	# spawn new room digger
+	print("CorridorDigger Died")
+	emit_signal("digger_died", self)

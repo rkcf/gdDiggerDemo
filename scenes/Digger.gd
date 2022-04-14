@@ -2,6 +2,9 @@ class_name Digger
 extends Node
 
 
+signal digger_died(digger)
+
+
 const DIRECTIONS = [Vector2.UP, Vector2.DOWN, Vector2.LEFT, Vector2.RIGHT]
 
 
@@ -38,14 +41,17 @@ func live() -> void:
 			turn()
 	destroy()
 
-# Get rid of a Digger
+
+
 func destroy() -> void:
-	print("Destroying Digger")
-	queue_free()
+	# spawn new room digger
+	print("Digger Died")
+	emit_signal("digger_died", self)
+
 
 # dig out an area
 func dig() -> void:
-	print("Digging at %s" % position)
+#	print("Digging at %s" % position)
 	dig_history.append(position)
 	# Erase the current tile
 	tile_map.set_cellv(self.position, -1)
