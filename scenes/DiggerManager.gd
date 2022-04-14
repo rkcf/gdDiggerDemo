@@ -25,3 +25,11 @@ func generate_level() -> void:
 	# Get a random starting location
 	var start_position: Vector2 = Vector2(round(rand_range(1, max_width - 1)), round(rand_range(1, max_height - 1)))
 	digger.spawn(start_position, level_boundary, tile_map)
+
+# Reload the scene tree
+func reload() -> void:
+	get_tree().reload_current_scene()
+
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("ui_accept"):
+		reload()
