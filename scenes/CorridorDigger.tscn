@@ -1,6 +1,19 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://scenes/CorridorDigger.gd" type="Script" id=1]
+[ext_resource path="res://common/assets/digger.png" type="Texture" id=2]
+
+[sub_resource type="RectangleShape2D" id=1]
 
 [node name="CorridorDigger" type="Node"]
 script = ExtResource( 1 )
+
+[node name="Body" type="KinematicBody2D" parent="."]
+collision_layer = 0
+collision_mask = 0
+
+[node name="Sprite" type="Sprite" parent="Body"]
+texture = ExtResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Body"]
+shape = SubResource( 1 )

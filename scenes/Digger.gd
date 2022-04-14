@@ -19,6 +19,9 @@ var life_length: int = 300 # number of tiles to dig before destructing
 var tile_map: TileMap
 var wait_time: float = .01 # number of seconds inbetween digs for visualization
 
+
+onready var body: KinematicBody2D = $Body
+
 # Create a new Digger
 func spawn(starting_position: Vector2, new_boundary: Rect2, new_map: TileMap) -> void:
 	print("Spawning new Digger")
@@ -28,6 +31,7 @@ func spawn(starting_position: Vector2, new_boundary: Rect2, new_map: TileMap) ->
 	directions.shuffle()
 
 	self.position = starting_position
+	body.position = starting_position * 32
 	self.boundary = new_boundary
 	self.tile_map = new_map
 	# get an initial direction facing
@@ -68,6 +72,9 @@ func move() -> void:
 	# Check that the target is inside our border
 	if boundary.has_point(target_position):
 		self.position = target_position
+		 # TODO fix not drawing movement
+		body.position = target_position * 32 
+		
 		self.steps_since_turn += 1
 	else:
 		# turn since we can't go there
