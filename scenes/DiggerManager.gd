@@ -5,10 +5,13 @@ extends Node
 export (int) var max_width = 60
 export (int) var max_height = 34
 export (int) var cell_size = 32
-export (int) var n_generations = 1 # total number of generations of room diggers
+export (int) var n_generations = 5 # total number of generations of room diggers
 
 
 var level_boundary: Rect2
+
+var rng: RandomNumberGenerator = RandomNumberGenerator.new()
+
 var room_digger = preload("res://scenes/RoomDigger.tscn")
 var corridor_digger = preload("res://scenes/CorridorDigger.tscn")
 
@@ -17,13 +20,16 @@ onready var diggers: Node = $Diggers # Digger node container
 
 
 func _ready() -> void:
+	rng.randomize()
 	self.level_boundary = Rect2(1, 1, max_width - 2, max_height - 2)
 	generate_level()
 
 # Main level generation function
 func generate_level() -> void:
-	# Spawn an initial room digger
-	var start_position: Vector2 = Vector2(round(rand_range(1, max_width - 1)), round(rand_range(1, max_height - 1)))
+	# Spawn an initial room digger somewhere around the middle
+	var startx: int = round(rng.randfn(max_width / 4, max_width / 10))
+	var starty: int = round(rng.randfn(max_height / 4, max_height / 10))
+	var start_position: Vector2 = Vector2(startx, starty)
 	var room: Room2D = null
 	while n_generations > 0:
 		room = create_room(start_position)
@@ -35,11 +41,11 @@ func generate_level() -> void:
 			cd = spawn_corridor_digger(room.random_position())
 			cd.live()
 			yield(cd, "digger_died")
-		# wait until last corridor diggers are destroyed to dig a room at the end
-		
+			room = create_room(cd.position)
 
 		# set the start position for the next generation to be in the last room generated in the current generation
 		var rand_room_pos = room.random_position()
+		
 
 		# Make sure room_position is within boundaries
 		if self.level_boundary.has_point(rand_room_pos):

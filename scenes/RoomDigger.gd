@@ -2,7 +2,7 @@ class_name RoomDigger
 extends Digger
 
 
-var max_room_size: int = 10
+var max_room_size: int = 8
 var min_room_size: int = 4
 var room: Room2D
 
