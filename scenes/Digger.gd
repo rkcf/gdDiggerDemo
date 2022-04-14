@@ -10,6 +10,7 @@ const DIRECTIONS = [Vector2.UP, Vector2.DOWN, Vector2.LEFT, Vector2.RIGHT]
 
 var position: Vector2 # Diggers current position
 var direction: Vector2 # Diggers current direction
+var directions = [] # Directions array for better rng selection
 var dig_history: Array = [] # A list of positions the Digger has dug
 var boundary: Rect2 # The limits of where the Digger can go
 var steps_since_turn: int # number of steps since Digger last turned
@@ -20,8 +21,12 @@ var wait_time: float = .01 # number of seconds inbetween digs for visualization
 
 # Create a new Digger
 func spawn(starting_position: Vector2, new_boundary: Rect2, new_map: TileMap) -> void:
-	randomize()
 	print("Spawning new Digger")
+
+	randomize()
+	directions = DIRECTIONS.duplicate()
+	directions.shuffle()
+
 	self.position = starting_position
 	self.boundary = new_boundary
 	self.tile_map = new_map
@@ -29,8 +34,7 @@ func spawn(starting_position: Vector2, new_boundary: Rect2, new_map: TileMap) ->
 	turn()
 	# Always dig out the starting tile
 	dig()
-	
-	
+
 
 # Main running loop fod Digger
 func live() -> void:
@@ -50,7 +54,6 @@ func destroy() -> void:
 	print("Digger Died")
 	emit_signal("digger_died", self)
 
-
 # dig out an area
 func dig() -> void:
 #	print("Digging at %s" % position)
@@ -58,7 +61,6 @@ func dig() -> void:
 	# Erase the current tile
 	tile_map.set_cellv(self.position, -1)
 	life_length -= 1
-
 
 # try and move to the next position
 func move() -> void:
@@ -73,10 +75,12 @@ func move() -> void:
 
 # Sets the Digger direction to a new random direction
 func turn() -> void:
-	var new_direction = DIRECTIONS[randi() % 4]
-	# Make sure we don't pick the same direction twice
-	while new_direction == self.direction:
-		new_direction = DIRECTIONS[randi() % 4]
-#	print("Digger turning %s" % new_direction)
+	if directions.empty():
+		directions = DIRECTIONS.duplicate()
+		directions.shuffle()
+
+# Take the direction out of the array to avvoid picking it multiple times
+	var new_direction = directions.pop_front()
+
 	self.direction = new_direction
 	self.steps_since_turn = 0
