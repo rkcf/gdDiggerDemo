@@ -15,7 +15,7 @@ onready var tile_map: TileMap = $TileMap
 
 
 func _ready() -> void:
-	self.level_boundary = Rect2(0, 0, max_width, max_height)
+	self.level_boundary = Rect2(1, 1, max_width - 2, max_height - 2)
 	generate_level()
 
 # Main level generation function
