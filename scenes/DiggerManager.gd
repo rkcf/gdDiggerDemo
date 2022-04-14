@@ -77,7 +77,18 @@ func spawn_corridor_digger(start_position: Vector2) -> CorridorDigger:
 
 # Reload the scene tree
 func reload() -> void:
-	get_tree().reload_current_scene()
+	cleanup()
+	yield(get_tree().create_timer(1), "timeout") # Wait 1 second for cleanup
+	generate_level()
+
+
+func cleanup() -> void:
+	for digger in diggers.get_children():
+		digger.queue_free()
+	for x in range(0, max_width):
+		for y in range(0, max_height):
+			tile_map.set_cell(x, y, tile_map.get_tileset().get_tiles_ids()[0])
+
 
 
 func _input(event: InputEvent) -> void:
@@ -87,3 +98,7 @@ func _input(event: InputEvent) -> void:
 
 func _on_GenerateButton_pressed() -> void:
 	reload()
+
+
+func _on_Generations_value_changed(value: float) -> void:
+	self.n_generations = round(value)
