@@ -14,8 +14,8 @@ func spawn(starting_position: Vector2, new_boundary: Rect2, new_map: TileMap) ->
 	self.tile_map = new_map
 	
 	# Corridor specific settings
-	self.life_length = 5
-	self.max_steps_to_turn = 15
+	self.life_length = 8
+	self.max_steps_to_turn = 8
 	
 	# get an initial direction facing
 	turn()
