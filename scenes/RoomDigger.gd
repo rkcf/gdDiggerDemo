@@ -4,7 +4,7 @@ extends Digger
 
 var max_room_size: int = 14
 var min_room_size: int = 2
-var similar_sized_rooms: bool = false # Whether we want our room sizes to be around the average room size
+var similar_sized_rooms: bool = true # Whether we want our room sizes to be around the average room size
 var room: Room2D
 
 
