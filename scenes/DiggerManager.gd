@@ -15,7 +15,8 @@ var rng: RandomNumberGenerator = RandomNumberGenerator.new()
 var room_digger = preload("res://scenes/RoomDigger.tscn")
 var corridor_digger = preload("res://scenes/CorridorDigger.tscn")
 
-onready var tile_map: TileMap = $TileMap
+onready var rooms_tile_map: TileMap = $RoomsTileMap
+onready var corridors_tile_map: TileMap = $CorridorsTileMap
 onready var diggers: Node = $Diggers # Digger node container
 onready var generation_input: SpinBox = $UI/Control/NinePatchRect/MarginContainer/VBoxContainer/HBoxContainer/Generations/Generations
 
@@ -78,14 +79,14 @@ func create_room(start_position: Vector2) -> Room2D:
 func spawn_room_digger(start_position: Vector2) -> RoomDigger:
 	var digger = room_digger.instance()
 	diggers.add_child(digger)
-	digger.spawn(start_position, self.level_boundary, self.tile_map)
+	digger.spawn(start_position, self.level_boundary, self.rooms_tile_map)
 	return digger
 
 
 func spawn_corridor_digger(start_position: Vector2) -> CorridorDigger:
 	var digger = corridor_digger.instance()
 	diggers.add_child(digger)
-	digger.spawn(start_position, self.level_boundary, self.tile_map)
+	digger.spawn(start_position, self.level_boundary, self.corridors_tile_map)
 	return digger
 
 # Reload the scene tree
@@ -100,7 +101,8 @@ func cleanup() -> void:
 		digger.queue_free()
 	for x in range(0, max_width):
 		for y in range(0, max_height):
-			tile_map.set_cell(x, y, tile_map.get_tileset().get_tiles_ids()[0])
+			rooms_tile_map.set_cell(x, y, rooms_tile_map.get_tileset().get_tiles_ids()[0])
+			corridors_tile_map.set_cell(x, y, corridors_tile_map.get_tileset().get_tiles_ids()[0])
 
 
 func set_n_generations(value: int) -> void:
