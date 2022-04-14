@@ -1,3 +1,18 @@
 * gdDiggerDemo
 
-An example project using digger algorithms for level generation.
+An example project using digger algorithms for procedural level generation.
+
+
+There are two types of diggers implemented here. A RoomDigger and a CorridorDigger. RoomDiggers dig and create rooms, while the CorridorDigger makes pathways and corridors between rooms.
+
+
+The basic algorithm is as follows:
+   1. Pick starting square (somewhere around the middle)
+   2. Place a room digger at this location and dig a room out
+   3. Generate a random number of corridor diggers in the newly created room. They will dig random corridors out
+   4. A new room digger is spawned at the end of the corridor.
+
+This cycle then repeats for a set number of generations to generate the full level      
+
+
+MIT Licensed
