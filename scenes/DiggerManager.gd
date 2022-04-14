@@ -27,13 +27,13 @@ func generate_level() -> void:
 	var room: Room2D = null
 	while n_generations > 0:
 		room = create_room(start_position)
+		
 		# set the start position for the next generation to be in the last room generated in the current generation
-		var randx = round(rand_range(0, room.size.x - 1))
-		var randy = round(rand_range(0, room.size.y - 1))
-		var room_position: Vector2 = room.position + Vector2(randx, randy)
+		var rand_room_pos = room.random_position()
+
 		# Make sure room_position is within boundaries
-		if self.level_boundary.has_point(room_position):
-			start_position = room_position
+		if self.level_boundary.has_point(rand_room_pos):
+			start_position = rand_room_pos
 			n_generations -= 1
 		else:
 			print("Early Generation Extinction")
@@ -47,6 +47,7 @@ func create_room(start_position: Vector2) -> Room2D:
 	for i in range(0, n_corridor_diggers):
 		var cd: CorridorDigger = spawn_corridor_digger(start_position)
 		cd.live()
+		# wait until corridor diggers are destroyed to dig a room at the end
 		# spawn a new room digger at the end of the corridor
 		rd = spawn_room_digger(cd.position)
 		rd.live()

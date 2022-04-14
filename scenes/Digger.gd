@@ -59,9 +59,6 @@ func dig() -> void:
 	tile_map.set_cellv(self.position, -1)
 	life_length -= 1
 
-	
-
-	
 
 # try and move to the next position
 func move() -> void:
