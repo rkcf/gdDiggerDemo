@@ -16,3 +16,6 @@ This cycle then repeats for a set number of generations to generate the full lev
 
 
 MIT Licensed
+
+* Ideas
+- Add a noise layer that serves as an attractor for turning direction preference. May allow for more natural looking room systems.

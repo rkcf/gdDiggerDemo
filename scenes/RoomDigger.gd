@@ -64,7 +64,12 @@ func dig_room(room: Room2D) -> void:
 	print("Digging Room at %s" % self.position)
 	for x in room.size.x:
 		for y in room.size.y:
-			var next_dig = room.position + Vector2(x, y)
+			var next_dig: Vector2 = room.position + Vector2(x, y)
+			var next_next_dig: Vector2 = next_dig + Vector2.DOWN # we can see through walls to see if there is something built aready
+			# TODO Prevent issue where we do not connect to corridor because of this check
+			# TODO check if cell is room or corridor
+			if tile_map.get_cellv(next_next_dig) == -1:
+				break
 			if self.boundary.has_point(next_dig):
 				self.position = next_dig
 				body.position = next_dig * 32
