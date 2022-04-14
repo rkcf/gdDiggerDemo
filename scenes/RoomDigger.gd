@@ -18,6 +18,11 @@ func create_room() -> Room2D:
 	# Get a random width and height
 	var width: int = round(rand_range(min_room_size, max_room_size))
 	var height: int = round(rand_range(min_room_size, max_room_size))
+	
+	# Make sure width and height are within boundary
+	assert(boundary.has_point(Vector2(position.x + width, position.y)))
+	assert(boundary.has_point(Vector2(position.x, position.y + height)))
+	
 	# Create the size vector
 	var size: Vector2 = Vector2(width, height)
 	# Find the top left corner to store the position
