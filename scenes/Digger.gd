@@ -16,6 +16,7 @@ var steps_since_turn: int # number of steps since Digger last turned
 var max_steps_to_turn: int = 2 # maximum number of steps until turn
 var life_length: int = 300 # number of tiles to dig before destructing
 var tile_map: TileMap
+var wait_time: float = .01 # number of seconds inbetween digs for visualization
 
 # Create a new Digger
 func spawn(starting_position: Vector2, new_boundary: Rect2, new_map: TileMap) -> void:
@@ -28,6 +29,8 @@ func spawn(starting_position: Vector2, new_boundary: Rect2, new_map: TileMap) ->
 	turn()
 	# Always dig out the starting tile
 	dig()
+	
+	
 
 # Main running loop fod Digger
 func live() -> void:
@@ -36,6 +39,7 @@ func live() -> void:
 		# See if we have already dug here
 		if tile_map.get_cellv(self.position) != tile_map.INVALID_CELL:
 			dig()
+			yield(get_tree().create_timer(wait_time), "timeout")
 		if steps_since_turn >= max_steps_to_turn:
 			turn()
 	destroy()
@@ -54,6 +58,9 @@ func dig() -> void:
 	# Erase the current tile
 	tile_map.set_cellv(self.position, -1)
 	life_length -= 1
+
+	
+
 	
 
 # try and move to the next position

@@ -39,3 +39,4 @@ func dig_room(room: Room2D) -> void:
 			if self.boundary.has_point(next_dig):
 				self.position = next_dig
 				dig()
+				yield(get_tree().create_timer(self.wait_time), "timeout")

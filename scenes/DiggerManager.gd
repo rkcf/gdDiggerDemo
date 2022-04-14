@@ -9,9 +9,11 @@ export (int) var n_generations = 3 # total number of generations of room diggers
 
 
 var level_boundary: Rect2
-
+var room_digger = preload("res://scenes/RoomDigger.tscn")
+var corridor_digger = preload("res://scenes/CorridorDigger.tscn")
 
 onready var tile_map: TileMap = $TileMap
+onready var diggers: Node = $Diggers # Digger node container
 
 
 func _ready() -> void:
@@ -50,14 +52,17 @@ func create_room(start_position: Vector2) -> Room2D:
 		rd.live()
 	return(rd.room)
 
+
 func spawn_room_digger(start_position: Vector2) -> RoomDigger:
-	var digger: RoomDigger = RoomDigger.new()
+	var digger = room_digger.instance()
+	diggers.add_child(digger)
 	digger.spawn(start_position, self.level_boundary, self.tile_map)
 	return digger
 
 
 func spawn_corridor_digger(start_position: Vector2) -> CorridorDigger:
-	var digger: CorridorDigger = CorridorDigger.new()
+	var digger = corridor_digger.instance()
+	diggers.add_child(digger)
 	digger.spawn(start_position, self.level_boundary, self.tile_map)
 	return digger
 
