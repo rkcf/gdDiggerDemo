@@ -10,15 +10,31 @@ var direction: Vector2 # Diggers current direction
 var dig_history: Array = [] # A list of positions the Digger has dug
 var boundary: Rect2 # The limits of where the Digger can go
 var steps_since_turn: int # number of steps since Digger last turned
+var max_steps_to_turn: int # maximum number of steps until turn
+var life_length: int = 500 # number of tiles to dig before destructing
+var tile_map: TileMap
 
 # Create a new Digger
-func spawn(starting_position: Vector2, new_boundary: Rect2) -> void:
+func spawn(starting_position: Vector2, new_boundary: Rect2, new_map: TileMap) -> void:
 	randomize()
 	print("Spawning new Digger")
 	self.position = starting_position
 	self.boundary = new_boundary
+	self.tile_map = new_map
 	# get an initial direction facing
 	turn()
+	# Always dig out the starting tile
+	dig()
+	live()
+
+# Main running loop fod Digger
+func live() -> void:
+	while life_length > 0:
+		move()
+		dig()
+		if steps_since_turn >= max_steps_to_turn:
+			turn()
+	destroy()
 
 # Get rid of a Digger
 func destroy() -> void:
@@ -27,7 +43,12 @@ func destroy() -> void:
 
 # dig out an area
 func dig() -> void:
+	print("Digging at %s" % position)
 	dig_history.append(position)
+	# Erase the current tile
+	tile_map.set_cellv(self.position, -1)
+	life_length -= 1
+	
 
 # try and move to the next position
 func move() -> void:
