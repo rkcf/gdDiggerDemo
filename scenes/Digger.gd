@@ -97,5 +97,15 @@ func turn() -> void:
 #	var new_direction = directions[0]
 #	directions.shuffle()
 
+	var weight = randf()
+	if weight < 0.3:
+		new_direction = Vector2.UP
+	elif weight < 0.6:
+		new_direction = Vector2.DOWN
+	elif weight < 0.8:
+		new_direction = Vector2.LEFT
+	elif weight < 1.0:
+		new_direction = Vector2.RIGHT
+
 	self.direction = new_direction
 	self.steps_since_turn = 0
