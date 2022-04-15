@@ -9,11 +9,16 @@ var size: Vector2 # (width, height) vector giving size of the room
 var area: Rect2
 
 
-func _init(position: Vector2, size: Vector2):
+func _init(new_position: Vector2, new_size: Vector2):
 	randomize()
-	self.position = position
-	self.size = size
+	self.position = new_position
+	self.size = new_size
 	self.area = Rect2(self.position, self.size)
+	var rrect = ReferenceRect.new()
+	rrect.editor_only = false
+	rrect.rect_position = position * 32
+	rrect.rect_size = size * 32
+	add_child(rrect)
 
 # Returns a random position in global coordinates within the room
 func random_position() -> Vector2:
@@ -25,7 +30,7 @@ func random_position() -> Vector2:
 # returns random border wall segment position
 func random_wall() -> Vector2:
 	var rand_side = DIRECTIONS[randi() % 4]
-	var rand_segment: Vector2
+	var rand_segment: Vector2 = Vector2.ZERO
 	# TODO FEATURE have wall segment be around middle
 	match rand_side:
 		Vector2.UP: # Top side

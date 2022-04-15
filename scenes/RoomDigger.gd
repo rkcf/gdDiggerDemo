@@ -2,10 +2,11 @@ class_name RoomDigger
 extends Digger
 
 
+
 var max_room_size: int = 14
 var min_room_size: int = 3
 var similar_sized_rooms: bool = true # Whether we want our room sizes to be around the average room size
-var room: Room2D
+var room: Room2D = null
 
 # Create a new Digger
 func spawn(starting_position: Vector2, new_boundary: Rect2, new_map: TileMap) -> void:
@@ -18,25 +19,32 @@ func spawn(starting_position: Vector2, new_boundary: Rect2, new_map: TileMap) ->
 	# Room Diggers always dig down
 	turn(Vector2.DOWN)
 	# Always dig out the starting tile
-	dig()
 
-func live() -> void:
+
+func live() -> RoomDigger:
 	var new_room: Room2D = create_room()
 	# Check to see if we have abandoned the building project due to out of bounds issues
 	if new_room:
 		self.room = new_room
-		dig_room(new_room)
+		dig_room()
+		return self
 	else:
-		print("abandoning job")
+		print("abandoning room dig job")
 		emit_signal("job_completed", self)
+		return self
 
+# Called on the death of a digger
+func destroy() -> void:
+	print("Destroying Room Digger")
+	self.queue_free()
 
 # Make a new randomly generated Room2D object
 func create_room() -> Room2D:
 	# Get a random width and height
 	var width: int
 	var height: int
-	if similar_sized_rooms:
+
+	if similar_sized_rooms: # We use a normal curve SD=2 based around the average size for this
 		var average_room_size = (max_room_size - min_room_size ) / 2
 		width = round(rng.randfn(average_room_size, 2))
 		height = round(rng.randfn(average_room_size, 2))
@@ -77,7 +85,7 @@ func create_room() -> Room2D:
 	return new_room
 
 
-func dig_room(room: Room2D) -> void:
+func dig_room() -> void:
 	print("Digging Room at %s" % self.position)
 	for x in room.size.x:
 		for y in room.size.y:
@@ -95,5 +103,5 @@ func dig_room(room: Room2D) -> void:
 				if Globals.config["animate"]:
 					yield(get_tree().create_timer(self.wait_time), "timeout")
 	# set that we have completed our job
-	print("job completed")
+	print("room dig job completed")
 	emit_signal("job_completed")

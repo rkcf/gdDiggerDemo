@@ -14,14 +14,25 @@ func spawn(starting_position: Vector2, new_boundary: Rect2, new_map: TileMap) ->
 	
 	# Corridor specific settings
 	self.life_length = 25
-	self.max_steps_to_turn = 13
+	self.max_steps_to_turn = 20
 	
 	# get an initial direction facing
 	turn(get_weighted_direction())
 
 
 # Main running loop for CorridorDigger
-func live() -> void:
+func live() -> CorridorDigger:
+	dig_corridor()
+	return self
+
+
+# Called on the death of a digger
+func destroy() -> void:
+	print("Destroying Corridor Digger")
+	self.queue_free()
+
+
+func dig_corridor() -> void:
 	while life_length > 0:
 		move()
 		# See if we have already dug here
@@ -29,8 +40,12 @@ func live() -> void:
 			dig()
 			if Globals.config["animate"]:
 				yield(get_tree().create_timer(self.wait_time), "timeout")
+
 		if steps_since_turn >= max_steps_to_turn:
 			turn(get_weighted_direction())
+		
+		life_length -= 1
+
+	print("corridor dig job completed")
 	emit_signal("job_completed", self)
-
-
+	return self

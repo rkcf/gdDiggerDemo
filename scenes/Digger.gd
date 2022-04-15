@@ -2,21 +2,20 @@ class_name Digger
 extends Node
 
 
-signal digger_died(digger)
+
 signal job_completed(digger)
 
 
 const DIRECTIONS = [Vector2.UP, Vector2.DOWN, Vector2.LEFT, Vector2.RIGHT]
 
+
 var position: Vector2 # Diggers current position
 var direction: Vector2 # Diggers current direction
-var directions = [] # Directions array for better rng selection
-var dig_history: Array = [] # A list of positions the Digger has dug
 var boundary: Rect2 # The limits of where the Digger can go
 var steps_since_turn: int # number of steps since Digger last turned
-var max_steps_to_turn: int = 2 # maximum number of steps until turn
-var life_length: int = 300 # number of tiles to dig before destructing
-var tile_map: TileMap
+var max_steps_to_turn: int # maximum number of steps until turn
+var life_length: int # number of tiles to dig before destructing
+var tile_map: TileMap # Tilemap the digger opperates on
 var wait_time: float = 0.01 # number of seconds inbetween digs for visualization
 
 # weighting targets for dynamicly weighted turn direction preference
@@ -42,21 +41,17 @@ func _ready() -> void:
 func spawn(starting_position: Vector2, new_boundary: Rect2, new_map: TileMap) -> void:
 	pass
 
-func live() -> void:
-	pass
-
 
 # Called on the death of a digger
 func destroy() -> void:
-	queue_free()
+	self.queue_free()
 
 # dig out an area
 func dig() -> void:
 #	print("Digging at %s" % position)
-	dig_history.append(position)
 	# Erase the current tile
 	tile_map.set_cellv(self.position, -1)
-	life_length -= 1
+
 
 # try and move to the next position
 func move() -> void:
@@ -72,8 +67,8 @@ func move() -> void:
 		turn(get_weighted_direction())
 
 # Sets the Digger direction to a new random direction
-func turn(direction: Vector2) -> void:
-	self.direction = direction
+func turn(new_direction: Vector2) -> void:
+	self.direction = new_direction
 	self.steps_since_turn = 0
 
 
