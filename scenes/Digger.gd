@@ -17,7 +17,7 @@ var steps_since_turn: int # number of steps since Digger last turned
 var max_steps_to_turn: int = 2 # maximum number of steps until turn
 var life_length: int = 300 # number of tiles to dig before destructing
 var tile_map: TileMap
-var wait_time: float = 0.001 # number of seconds inbetween digs for visualization
+var wait_time: float = 0.01 # number of seconds inbetween digs for visualization
 
 # weighting targets for dynamicly weighted turn direction preference
 var up_target: float = 0.3
@@ -104,6 +104,8 @@ func turn() -> void:
 	# These should add up to one
 #	assert(up_target + down_target + left_target + right_target == 1.0)
 	
+	# TODO FIXME makesure weights don't go negative
+	# TODO FEATURE make spawn more likely to havppen in middle of wall for more designed look
 #	 # get a random float between 0 and 1, use our weightings to determine where to go
 	var weight = randf()
 	if weight < up_target:
@@ -124,7 +126,6 @@ func turn() -> void:
 		self.left_target -= 0.1
 		self.up_target += 0.15
 		self.down_target += 0.15
-
 	elif weight < 10.0: # FIXME have some issues where weights add up to more than one. should be < 1.0
 		new_direction = Vector2.RIGHT
 		self.left_target -= 0.2
