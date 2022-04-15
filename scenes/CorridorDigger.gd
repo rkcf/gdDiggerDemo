@@ -6,7 +6,6 @@ var corridor_width: int = 1
 
 # Create a new Digger
 func spawn(starting_position: Vector2, new_boundary: Rect2, new_map: TileMap) -> void:
-	randomize()
 	print("Spawning new Corridor Digger")
 	self.position = starting_position
 	body.position = starting_position * 32
@@ -18,7 +17,7 @@ func spawn(starting_position: Vector2, new_boundary: Rect2, new_map: TileMap) ->
 	self.max_steps_to_turn = 13
 	
 	# get an initial direction facing
-	turn()
+	turn(get_weighted_direction())
 
 
 # Main running loop for CorridorDigger
@@ -30,7 +29,7 @@ func live() -> void:
 			dig()
 			yield(get_tree().create_timer(self.wait_time), "timeout")
 		if steps_since_turn >= max_steps_to_turn:
-			turn()
+			turn(get_weighted_direction())
 	destroy()
 
 

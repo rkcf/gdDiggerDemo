@@ -71,10 +71,15 @@ func move() -> void:
 		self.steps_since_turn += 1
 	else:
 		# turn since we can't go there
-		turn()
+		turn(get_weighted_direction())
 
 # Sets the Digger direction to a new random direction
-func turn() -> void:
+func turn(direction: Vector2) -> void:
+	self.direction = direction
+	self.steps_since_turn = 0
+
+
+func get_weighted_direction() -> Vector2:
 	var new_direction: Vector2
 #	print("target direction weights: %s, %s, %s, %s" % [up_target, down_target, left_target, right_target])
 	
@@ -111,5 +116,9 @@ func turn() -> void:
 		self.down_target += 0.15
 
 #	print("target direction weights: %s, %s, %s, %s" % [up_target, down_target, left_target, right_target])
-	self.direction = new_direction
-	self.steps_since_turn = 0
+	return new_direction
+
+
+func get_random_direction() -> Vector2:
+	var new_direction: Vector2 = DIRECTIONS[randi() % 4]
+	return new_direction

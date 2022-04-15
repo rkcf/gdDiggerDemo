@@ -15,8 +15,8 @@ func spawn(starting_position: Vector2, new_boundary: Rect2, new_map: TileMap) ->
 	body.position = starting_position * 32
 	self.boundary = new_boundary
 	self.tile_map = new_map
-	# get an initial direction facing
-	turn()
+	# Room Diggers always dig down
+	turn(Vector2.DOWN)
 	# Always dig out the starting tile
 	dig()
 
