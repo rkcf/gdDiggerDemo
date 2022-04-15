@@ -18,9 +18,9 @@ var corridor_digger = preload("res://scenes/CorridorDigger.tscn")
 onready var rooms_tile_map: TileMap = $RoomsTileMap
 onready var corridors_tile_map: TileMap = $CorridorsTileMap
 onready var diggers: Node = $Diggers # Digger node container
-onready var generation_input: SpinBox = $UI/Control/NinePatchRect/MarginContainer/VBoxContainer/HBoxContainer/Generations/Generations
-onready var max_width_input: SpinBox = $UI/Control/NinePatchRect/MarginContainer/VBoxContainer/HBoxContainer/Width/Width
-onready var max_height_input: SpinBox = $UI/Control/NinePatchRect/MarginContainer/VBoxContainer/HBoxContainer/Height/Height
+onready var generation_input: SpinBox = $UI/Control/UIPanel/MarginContainer/VBoxContainer/HBoxContainer/Generations/Generations
+onready var max_width_input: SpinBox = $UI/Control/UIPanel/MarginContainer/VBoxContainer/HBoxContainer/Width/Width
+onready var max_height_input: SpinBox = $UI/Control/UIPanel/MarginContainer/VBoxContainer/HBoxContainer/Height/Height
 
 
 func _ready() -> void:
@@ -37,8 +37,9 @@ func generate_level() -> void:
 	self.generations_left = n_generations
 	while generations_left > 0:
 		# cleanup diggers from previous generation
-		for digger in diggers.get_children():
-			digger.queue_free()
+		# TODO FIXME need to add some sort of wait here for room diggers to finish
+#		for digger in diggers.get_children():
+#			digger.queue_free()
 		var room: Room2D = null
 		room = create_room(start_position)
 		

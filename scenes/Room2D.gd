@@ -26,6 +26,7 @@ func random_position() -> Vector2:
 func random_wall() -> Vector2:
 	var rand_side = DIRECTIONS[randi() % 4]
 	var rand_segment: Vector2
+	# TODO FEATURE have wall segment be around middle
 	match rand_side:
 		Vector2.UP: # Top side
 			rand_segment.y = 0
