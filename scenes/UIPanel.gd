@@ -31,50 +31,33 @@ func _on_UIPanel_gui_input(event: InputEvent) -> void:
 
 
 func _handle_spinboxes(value: float, input: ParamSpinbox) -> void:
-	var dict: Dictionary
-	match input.config_dict:
-		Globals.ConfigDicts.UI_CONFIG:
-			dict = Globals.ui_config
-		Globals.ConfigDicts.GEN_CONFIG:
-			dict = Globals.gen_config
-		Globals.ConfigDicts.DIGGER_CONFIG:
-			dict = Globals.digger_config
+	var dict = get_config_dict(input.config_dict)
 	dict[input.option] = value
-	print(dict)
 	emit_signal("ui_config_changed")
 
 
 func _handle_toggles(input: ParamToggle) -> void:
+	var dict = get_config_dict(input.config_dict)
+	dict[input.option] = !dict[input.option]
+	emit_signal("ui_config_changed")
+
+
+func set_ui_values() -> void:
+	for input in get_tree().get_nodes_in_group("param_spinboxes"):
+		var dict = get_config_dict(input.config_dict)
+		input.value = dict[input.option]
+	for input in get_tree().get_nodes_in_group("param_toggles"):
+		var dict = get_config_dict(input.config_dict)
+		input.pressed = dict[input.option]
+
+
+func get_config_dict(index: int) -> Dictionary:
 	var dict: Dictionary
-	match input.config_dict:
+	match index:
 		Globals.ConfigDicts.UI_CONFIG:
 			dict = Globals.ui_config
 		Globals.ConfigDicts.GEN_CONFIG:
 			dict = Globals.gen_config
 		Globals.ConfigDicts.DIGGER_CONFIG:
 			dict = Globals.digger_config
-	dict[input.option] = !dict[input.option]
-	emit_signal("ui_config_changed")
-
-func set_ui_values() -> void:
-	for input in get_tree().get_nodes_in_group("param_spinboxes"):
-		var dict: Dictionary
-		match input.config_dict:
-			Globals.ConfigDicts.UI_CONFIG:
-				dict = Globals.ui_config
-			Globals.ConfigDicts.GEN_CONFIG:
-				dict = Globals.gen_config
-			Globals.ConfigDicts.DIGGER_CONFIG:
-				dict = Globals.digger_config
-		input.value = dict[input.option]
-	for input in get_tree().get_nodes_in_group("param_toggles"):
-		var dict: Dictionary
-		match input.config_dict:
-			Globals.ConfigDicts.UI_CONFIG:
-				dict = Globals.ui_config
-			Globals.ConfigDicts.GEN_CONFIG:
-				dict = Globals.gen_config
-			Globals.ConfigDicts.DIGGER_CONFIG:
-				dict = Globals.digger_config
-		input.pressed = dict[input.option]
-		
+	return dict
