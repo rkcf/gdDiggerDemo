@@ -118,4 +118,3 @@ func create_room() -> Room2D:
 	# Find the top left corner to store the position
 	var new_room: Room2D = Room2D.new(position, size)
 	return new_room
-

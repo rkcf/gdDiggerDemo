@@ -94,18 +94,31 @@ func spawn_generation(generation_room: Room2D):
 			print("Done Yielding for corridor digger")
 			# Make sure cd.position is in level
 			if self.level_boundary.has_point(cd.position):
-				var rd: RoomDigger = spawn_room_digger(cd.position)
-				if Globals.ui_config["animate"]:
-					yield(rd.live(), "completed") # Wait until the digger has died to go onto the next Corridor
-				else:
-					rd.live()
-				if rd.room:
-					add_room(rd.room)
-				rd.destroy()
+				if check_if_good_to_build(cd.position): # This looks like a good place for a room
+					var rd: RoomDigger = spawn_room_digger(cd.position)
+					if Globals.ui_config["animate"]:
+						yield(rd.live(), "completed") # Wait until the digger has died to go onto the next Corridor
+					else:
+						rd.live()
+					if rd.room:
+						add_room(rd.room)
+					rd.destroy()
+				else: # We don't want to build a room here
+					pass
 			
 			cd.destroy()
 		
 		n_corridor_diggers -= 1
+
+# Check whether the room building area is free of obstructions
+func check_if_good_to_build(position: Vector2) -> bool:
+	var buffer_size = Globals.digger_config["max_room_size"] # How big of an area do we want to look for rooms in
+	var area = Rect2(position, Vector2(buffer_size, buffer_size))
+	for room in rooms:
+		if area.intersects(room.area): # If the proposed building site intersects with a previously made room we don't build here
+			return false
+	return true
+
 
 
 # Add a completed room so we can manage them later
