@@ -9,8 +9,11 @@ var drag_position = null
 func _ready() -> void:
 	# connect to parameter input scrollboxes
 	for input in get_tree().get_nodes_in_group("param_spinboxes"):
-		var r = input.connect("value_changed", self, "_handle_spinboxes", [input])
-		print(r)
+		input.connect("value_changed", self, "_handle_spinboxes", [input])
+
+	# connect to parameter toggles
+	for input in get_tree().get_nodes_in_group("param_toggles"):
+		input.connect("pressed", self, "_handle_toggles", [input])
 
 # To handle drag and movement of window
 func _on_UIPanel_gui_input(event: InputEvent) -> void:
@@ -39,15 +42,15 @@ func _handle_spinboxes(value: float, input: ParamSpinbox) -> void:
 	emit_signal("ui_config_changed")
 
 
-func _on_AnimateToggle_pressed() -> void:
-	Globals.ui_config["animate"] = !Globals.ui_config["animate"]
+func _handle_toggles(input: ParamToggle) -> void:
+	var dict: Dictionary
+	match input.config_dict:
+		Globals.ConfigDicts.UI_CONFIG:
+			dict = Globals.ui_config
+		Globals.ConfigDicts.GEN_CONFIG:
+			dict = Globals.gen_config
+		Globals.ConfigDicts.DIGGER_CONFIG:
+			dict = Globals.digger_config
+	dict[input.option] = !dict[input.option]
+	print(dict)
 	emit_signal("ui_config_changed")
-
-
-func _on_DrawWallsToggle_pressed() -> void:
-	Globals.ui_config["draw_walls"] =!Globals.ui_config["draw_walls"]
-	emit_signal("ui_config_changed")
-
-
-func _on_SimilarSizedRoomsToggle_pressed() -> void:
-	Globals.digger_config["similar_sized_room"] = !Globals.digger_config["similar_sized_rooms"]

@@ -29,6 +29,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scenes/ParamSpinbox.gd"
 }, {
+"base": "CheckButton",
+"class": "ParamToggle",
+"language": "GDScript",
+"path": "res://scenes/ParamToggle.gd"
+}, {
 "base": "Node",
 "class": "Room2D",
 "language": "GDScript",
@@ -44,6 +49,7 @@ _global_script_class_icons={
 "Digger": "",
 "DiggerManager": "",
 "ParamSpinbox": "",
+"ParamToggle": "",
 "Room2D": "",
 "RoomDigger": ""
 }

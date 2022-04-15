@@ -81,8 +81,8 @@ func create_room() -> Room2D:
 
 	if similar_sized_rooms: # We use a normal curve SD=2 based around the average size for this
 		var average_room_size = (max_room_size - min_room_size ) / 2
-		width = round(rng.randfn(average_room_size, 2))
-		height = round(rng.randfn(average_room_size, 2))
+		width = round(rng.randfn(average_room_size, 1))
+		height = round(rng.randfn(average_room_size, 1))
 	else:
 		width = round(rand_range(min_room_size, max_room_size))
 		height = round(rand_range(min_room_size, max_room_size))
