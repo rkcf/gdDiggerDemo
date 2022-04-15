@@ -31,13 +31,13 @@ func random_wall() -> Vector2:
 			rand_segment.y = 0
 			rand_segment.x = round(rand_range(0, size.x - 1))
 		Vector2.DOWN: # Bottom side
-			rand_segment.y = self.size.y
+			rand_segment.y = self.size.y - 1
 			rand_segment.x = round(rand_range(0, size.x - 1))
 		Vector2.LEFT: # Left side
 			rand_segment.x = 0
 			rand_segment.y = round(rand_range(0, size.y - 1))
 		Vector2.RIGHT: # Right side
-			rand_segment.x = self.size.x
+			rand_segment.x = self.size.x - 1
 			rand_segment.y = round(rand_range(0, size.y - 1))
 	var rand_wall_pos: Vector2 = position + rand_segment
 	return rand_wall_pos

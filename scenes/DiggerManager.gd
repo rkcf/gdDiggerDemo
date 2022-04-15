@@ -30,12 +30,15 @@ func _ready() -> void:
 func generate_level() -> void:
 	rng.randomize()
 	# Spawn an initial room digger somewhere around the middle
-	var startx: int = round(rng.randfn(max_width / 4, max_width / 10))
-	var starty: int = round(rng.randfn(max_height / 4, max_height / 10))
+	var startx: int = round(rng.randfn(max_width / 2, max_width / 10))
+	var starty: int = round(rng.randfn(max_height / 2, max_height / 10))
 	var start_position: Vector2 = Vector2(startx, starty)
 	
 	self.generations_left = n_generations
 	while generations_left > 0:
+		# cleanup diggers from previous generation
+		for digger in diggers.get_children():
+			digger.queue_free()
 		var room: Room2D = null
 		room = create_room(start_position)
 		
@@ -45,7 +48,7 @@ func generate_level() -> void:
 			break
 
 		# Spawn random number of corridor diggers, M=3 SD=2
-		var n_corridor_diggers: int = round(rng.randfn(3, 2))
+		var n_corridor_diggers: int = round(rng.randfn(3, 1))
 		var cd: CorridorDigger
 		for i in range(0, n_corridor_diggers):
 			# TODO FIXME periodic bug where we get to this point when room == null even with previous check

@@ -17,13 +17,13 @@ var steps_since_turn: int # number of steps since Digger last turned
 var max_steps_to_turn: int = 2 # maximum number of steps until turn
 var life_length: int = 300 # number of tiles to dig before destructing
 var tile_map: TileMap
-var wait_time: float = .01 # number of seconds inbetween digs for visualization
+var wait_time: float = 0.001 # number of seconds inbetween digs for visualization
 
 # weighting targets for dynamicly weighted turn direction preference
 var up_target: float = 0.3
 var down_target: float = 0.2
-var left_target: float = 0.3
-var right_target: float = 0.2
+var left_target: float = 0.35
+var right_target: float = 0.15
 var target_weights: Array = []
 
 var rng: RandomNumberGenerator = RandomNumberGenerator.new()
@@ -64,7 +64,7 @@ func live() -> void:
 		# See if we have already dug here
 		if tile_map.get_cellv(self.position) != tile_map.INVALID_CELL:
 			dig()
-			yield(get_tree().create_timer(wait_time), "timeout")
+			yield(get_tree().create_timer(self.wait_time), "timeout")
 		if steps_since_turn >= max_steps_to_turn:
 			turn()
 	destroy()
