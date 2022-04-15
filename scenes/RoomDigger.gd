@@ -40,7 +40,7 @@ func live():
 			yield(self, "room_dug")
 		else:
 			emit_signal("completed")
-		print("Room Digger has no reason to live")
+#		print("Room Digger has no reason to live")
 	else:
 		print("abandoning room dig job")
 

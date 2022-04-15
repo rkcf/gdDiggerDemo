@@ -27,7 +27,7 @@ func spawn(starting_position: Vector2, new_boundary: Rect2, new_map: TileMap) ->
 func live():
 	dig_corridor()
 	yield(self, "corridor_dug")
-	print("Corridor Digger has no reason to live")
+#	print("Corridor Digger has no reason to live")
 
 
 # Called on the death of a digger

@@ -14,14 +14,14 @@ var ui_config: Dictionary = {
 var gen_config: Dictionary = {
 	"level_width": 300,
 	"level_height": 150,
-	"n_generations": 3,  # Number of generations to run
-	"room_pick_method": RoomPickMethods.RANDOM # How we pick the room to spawn each generation out of
+	"n_generations": 5,  # Number of generations to run
+	"room_pick_method": RoomPickMethods.LAST # How we pick the room to spawn each generation out of
 }
 
 # Digger specific parameters
 var digger_config: Dictionary = {
-	"max_room_size": 10,
-	"min_room_size": 3,
+	"max_room_size": 14,
+	"min_room_size": 6,
 	"similar_sized_rooms": true,
 	"corridor_life_length": 18,
 	"corridor_max_steps_to_turn": 14

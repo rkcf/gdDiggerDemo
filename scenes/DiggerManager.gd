@@ -47,7 +47,7 @@ func generate_level() -> void:
 	else:
 		rd.live()
 	
-	print("Done yielding")
+#	print("Done yielding")
 	if rd.room:
 		add_room(rd.room)
 		generation_room = rd.room
@@ -91,7 +91,7 @@ func spawn_generation(generation_room: Room2D):
 				yield(cd.live(), "completed") # Wait until cd has died to spawn a room digger here
 			else:
 				cd.live()
-			print("Done Yielding for corridor digger")
+#			print("Done Yielding for corridor digger")
 			# Make sure cd.position is in level
 			if self.level_boundary.has_point(cd.position):
 				if check_if_good_to_build(cd.position): # This looks like a good place for a room
@@ -103,12 +103,16 @@ func spawn_generation(generation_room: Room2D):
 					if rd.room:
 						add_room(rd.room)
 					rd.destroy()
-				else: # We don't want to build a room here
+				else: # We don't want to build a room here. try again
+					# TODO Add code to try again by making a longer corridor
+#					cd.life_length = Globals.digger_config["corridor_life_length"]
+#					cd.live()
 					pass
-			
+
 			cd.destroy()
 		
 		n_corridor_diggers -= 1
+
 
 # Check whether the room building area is free of obstructions
 func check_if_good_to_build(position: Vector2) -> bool:
@@ -120,10 +124,9 @@ func check_if_good_to_build(position: Vector2) -> bool:
 	return true
 
 
-
 # Add a completed room so we can manage them later
 func add_room(room: Room2D) -> void:
-	print(room)
+#	print(room)
 	rooms.append(room)
 	room_container.add_child(room)
 
