@@ -58,7 +58,7 @@ theme = SubResource( 3 )
 [node name="UIPanel" type="PanelContainer" parent="UI/Control"]
 anchor_top = 1.0
 anchor_bottom = 1.0
-margin_top = -314.0
+margin_top = -414.0
 margin_right = 1014.0
 script = ExtResource( 6 )
 
@@ -66,8 +66,8 @@ script = ExtResource( 6 )
 margin_left = 7.0
 margin_top = 7.0
 margin_right = 1007.0
-margin_bottom = 307.0
-rect_min_size = Vector2( 1000, 300 )
+margin_bottom = 407.0
+rect_min_size = Vector2( 1000, 400 )
 texture = ExtResource( 3 )
 patch_margin_left = 10
 patch_margin_top = 10
@@ -89,22 +89,22 @@ custom_constants/margin_bottom = 16
 margin_left = 16.0
 margin_top = 16.0
 margin_right = 984.0
-margin_bottom = 284.0
+margin_bottom = 384.0
 custom_constants/separation = 16
 
-[node name="TopRow" type="HBoxContainer" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer"]
+[node name="Row0" type="HBoxContainer" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer"]
 margin_right = 968.0
 margin_bottom = 40.0
 custom_constants/separation = 32
 
-[node name="GenerateButton" type="Button" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/TopRow"]
+[node name="GenerateButton" type="Button" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/Row0"]
 margin_right = 140.0
 margin_bottom = 31.0
 size_flags_horizontal = 0
 size_flags_vertical = 0
 text = "Generate"
 
-[node name="AnimateToggle" type="CheckButton" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/TopRow"]
+[node name="AnimateToggle" type="CheckButton" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/Row0"]
 margin_left = 172.0
 margin_right = 364.0
 margin_bottom = 40.0
@@ -113,7 +113,7 @@ align = 1
 script = ExtResource( 9 )
 option = "animate"
 
-[node name="DrawWallsToggle" type="CheckButton" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/TopRow"]
+[node name="DrawWallsToggle" type="CheckButton" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/Row0"]
 margin_left = 396.0
 margin_right = 636.0
 margin_bottom = 40.0
@@ -121,17 +121,17 @@ text = "Draw Walls"
 script = ExtResource( 9 )
 option = "draw_walls"
 
-[node name="MiddleRow" type="HBoxContainer" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer"]
+[node name="Row1" type="HBoxContainer" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer"]
 margin_top = 56.0
 margin_right = 968.0
 margin_bottom = 148.0
 custom_constants/separation = 32
 
-[node name="Generations" type="VBoxContainer" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/MiddleRow"]
+[node name="Generations" type="VBoxContainer" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/Row1"]
 margin_right = 218.0
 margin_bottom = 92.0
 
-[node name="value" type="SpinBox" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/MiddleRow/Generations"]
+[node name="value" type="SpinBox" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/Row1/Generations"]
 margin_right = 218.0
 margin_bottom = 35.0
 min_value = 1.0
@@ -142,19 +142,19 @@ script = ExtResource( 8 )
 config_dict = 1
 option = "n_generations"
 
-[node name="Label" type="Label" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/MiddleRow/Generations"]
+[node name="Label" type="Label" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/Row1/Generations"]
 margin_top = 39.0
 margin_right = 218.0
 margin_bottom = 92.0
 text = "# Generations
 "
 
-[node name="Width" type="VBoxContainer" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/MiddleRow"]
+[node name="Width" type="VBoxContainer" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/Row1"]
 margin_left = 250.0
 margin_right = 468.0
 margin_bottom = 92.0
 
-[node name="value" type="SpinBox" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/MiddleRow/Width"]
+[node name="value" type="SpinBox" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/Row1/Width"]
 margin_right = 218.0
 margin_bottom = 35.0
 min_value = 10.0
@@ -166,7 +166,7 @@ script = ExtResource( 8 )
 config_dict = 1
 option = "level_width"
 
-[node name="Label" type="Label" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/MiddleRow/Width"]
+[node name="Label" type="Label" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/Row1/Width"]
 margin_top = 39.0
 margin_right = 218.0
 margin_bottom = 92.0
@@ -174,12 +174,12 @@ text = "Width
 "
 align = 1
 
-[node name="Height" type="VBoxContainer" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/MiddleRow"]
+[node name="Height" type="VBoxContainer" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/Row1"]
 margin_left = 500.0
 margin_right = 718.0
 margin_bottom = 92.0
 
-[node name="value" type="SpinBox" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/MiddleRow/Height"]
+[node name="value" type="SpinBox" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/Row1/Height"]
 margin_right = 218.0
 margin_bottom = 35.0
 min_value = 10.0
@@ -191,42 +191,42 @@ script = ExtResource( 8 )
 config_dict = 1
 option = "level_height"
 
-[node name="Label" type="Label" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/MiddleRow/Height"]
+[node name="Label" type="Label" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/Row1/Height"]
 margin_top = 39.0
 margin_right = 218.0
 margin_bottom = 64.0
 text = "Height"
 align = 1
 
-[node name="BottomRow" type="HBoxContainer" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer"]
+[node name="Row2" type="HBoxContainer" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer"]
 margin_top = 164.0
 margin_right = 968.0
 margin_bottom = 228.0
 custom_constants/separation = 32
 
-[node name="MaxRoomSize" type="VBoxContainer" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/BottomRow"]
+[node name="MaxRoomSize" type="VBoxContainer" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/Row2"]
 margin_right = 218.0
 margin_bottom = 64.0
 
-[node name="value" type="SpinBox" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/BottomRow/MaxRoomSize"]
+[node name="value" type="SpinBox" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/Row2/MaxRoomSize"]
 margin_right = 218.0
 margin_bottom = 35.0
 script = ExtResource( 8 )
 config_dict = 2
 option = "max_room_size"
 
-[node name="Label" type="Label" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/BottomRow/MaxRoomSize"]
+[node name="Label" type="Label" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/Row2/MaxRoomSize"]
 margin_top = 39.0
 margin_right = 218.0
 margin_bottom = 64.0
 text = "Max Room Size"
 
-[node name="MinRoomSize" type="VBoxContainer" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/BottomRow"]
+[node name="MinRoomSize" type="VBoxContainer" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/Row2"]
 margin_left = 250.0
 margin_right = 468.0
 margin_bottom = 64.0
 
-[node name="value" type="SpinBox" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/BottomRow/MinRoomSize"]
+[node name="value" type="SpinBox" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/Row2/MinRoomSize"]
 margin_right = 218.0
 margin_bottom = 35.0
 min_value = 1.0
@@ -235,13 +235,13 @@ script = ExtResource( 8 )
 config_dict = 2
 option = "min_room_size"
 
-[node name="Label" type="Label" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/BottomRow/MinRoomSize"]
+[node name="Label" type="Label" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/Row2/MinRoomSize"]
 margin_top = 39.0
 margin_right = 218.0
 margin_bottom = 64.0
 text = "Min Room Size"
 
-[node name="SimilarSizedRoomsToggle" type="CheckButton" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/BottomRow"]
+[node name="SimilarSizedRoomsToggle" type="CheckButton" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/Row2"]
 margin_left = 500.0
 margin_right = 884.0
 margin_bottom = 64.0
@@ -251,6 +251,48 @@ script = ExtResource( 9 )
 config_dict = 2
 option = "similar_sized_rooms"
 
+[node name="Row3" type="HBoxContainer" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer"]
+margin_top = 244.0
+margin_right = 968.0
+margin_bottom = 336.0
+custom_constants/separation = 32
+
+[node name="Corridor Length" type="VBoxContainer" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/Row3"]
+margin_right = 240.0
+margin_bottom = 92.0
+
+[node name="value" type="SpinBox" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/Row3/Corridor Length"]
+margin_right = 240.0
+margin_bottom = 35.0
+script = ExtResource( 8 )
+config_dict = 2
+option = "corridor_life_length"
+
+[node name="Label" type="Label" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/Row3/Corridor Length"]
+margin_top = 39.0
+margin_right = 240.0
+margin_bottom = 92.0
+text = "Corridor Length
+"
+
+[node name="Corridor Turniness" type="VBoxContainer" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/Row3"]
+margin_left = 272.0
+margin_right = 490.0
+margin_bottom = 92.0
+
+[node name="value" type="SpinBox" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/Row3/Corridor Turniness"]
+margin_right = 218.0
+margin_bottom = 35.0
+script = ExtResource( 8 )
+config_dict = 2
+option = "corridor_max_steps_to_turn"
+
+[node name="Label" type="Label" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/Row3/Corridor Turniness"]
+margin_top = 39.0
+margin_right = 218.0
+margin_bottom = 64.0
+text = "Turniness"
+
 [node name="Camera" type="Camera2D" parent="."]
 anchor_mode = 0
 current = true
@@ -258,4 +300,4 @@ zoom = Vector2( 6, 6 )
 script = ExtResource( 5 )
 
 [connection signal="gui_input" from="UI/Control/UIPanel" to="UI/Control/UIPanel" method="_on_UIPanel_gui_input"]
-[connection signal="pressed" from="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/TopRow/GenerateButton" to="." method="_on_GenerateButton_pressed"]
+[connection signal="pressed" from="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/Row0/GenerateButton" to="." method="_on_GenerateButton_pressed"]

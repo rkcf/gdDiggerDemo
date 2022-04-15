@@ -20,6 +20,8 @@ var gen_config: Dictionary = {
 var digger_config: Dictionary = {
 	"max_room_size": 14,
 	"min_room_size": 3,
-	"similar_sized_rooms": true
+	"similar_sized_rooms": true,
+	"corridor_life_length": 10,
+	"corridor_max_steps_to_turn": 4
 }
 
