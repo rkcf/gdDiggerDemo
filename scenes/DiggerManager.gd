@@ -20,9 +20,6 @@ onready var rooms_tile_map: TileMap = $RoomsTileMap
 onready var corridors_tile_map: TileMap = $CorridorsTileMap
 onready var diggers: Node = $Diggers # Digger node container
 onready var room_container: Node = $Rooms
-onready var generation_input: SpinBox = $UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/MiddleRow/Generations/Generations
-onready var max_width_input: SpinBox = $UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/MiddleRow/Width/Width
-onready var max_height_input: SpinBox = $UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/MiddleRow/Height/Height
 onready var ui = $UI/Control/UIPanel
 
 
