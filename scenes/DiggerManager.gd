@@ -11,6 +11,8 @@ export (int) var n_generations # total number of generations of room diggers
 var level_boundary: Rect2
 var rooms: Array = []
 
+var room_pick_method: int
+
 var rng: RandomNumberGenerator = RandomNumberGenerator.new()
 
 var room_digger = preload("res://scenes/RoomDigger.tscn")
@@ -64,7 +66,14 @@ func generate_level() -> void:
 			else:
 				spawn_generation(next_room)
 			print("Generation %s Finished" % generation_index)
-			next_room = rooms[rooms.size() - 1]
+			
+			match room_pick_method:
+				Globals.RoomPickMethods.RANDOM:
+					next_room = rooms[randi() % rooms.size()]
+				Globals.RoomPickMethods.FIRST:
+					next_room = rooms[0]
+				Globals.RoomPickMethods.LAST:
+					next_room = rooms[rooms.size() - 1]
 			generations_left -= 1
 			generation_index += 1
 
@@ -155,6 +164,7 @@ func load_config() -> void:
 	self.max_width = Globals.gen_config["level_width"]
 	self.cell_size = Globals.ui_config["cell_size"]
 	self.n_generations = Globals.gen_config["n_generations"]
+	self.room_pick_method = Globals.gen_config["room_pick_method"]
 
 
 func _handle_ui_config_change() -> void:

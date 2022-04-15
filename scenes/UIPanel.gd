@@ -15,6 +15,10 @@ func _ready() -> void:
 	for input in get_tree().get_nodes_in_group("param_toggles"):
 		input.connect("pressed", self, "_handle_toggles", [input])
 		
+	# connect to parameter option buttons
+	for input in get_tree().get_nodes_in_group("param_options"):
+		var r = input.connect("item_selected", self, "_handle_options", [input])
+		print(r)
 	set_ui_values()
 
 # To handle drag and movement of window
@@ -42,6 +46,12 @@ func _handle_toggles(input: ParamToggle) -> void:
 	emit_signal("ui_config_changed")
 
 
+func _handle_options(index: int, input: ParamOption) -> void:
+	var dict = get_config_dict(input.config_dict)
+	dict[input.option] = input.selected
+	emit_signal("ui_config_changed")
+
+
 func set_ui_values() -> void:
 	for input in get_tree().get_nodes_in_group("param_spinboxes"):
 		var dict = get_config_dict(input.config_dict)
@@ -49,6 +59,9 @@ func set_ui_values() -> void:
 	for input in get_tree().get_nodes_in_group("param_toggles"):
 		var dict = get_config_dict(input.config_dict)
 		input.pressed = dict[input.option]
+	for input in get_tree().get_nodes_in_group("param_options"):
+		var dict = get_config_dict(input.config_dict)
+		input.selected = dict[input.option]
 
 
 func get_config_dict(index: int) -> Dictionary:
