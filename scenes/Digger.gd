@@ -3,10 +3,10 @@ extends Node
 
 
 signal digger_died(digger)
+signal job_completed(digger)
 
 
 const DIRECTIONS = [Vector2.UP, Vector2.DOWN, Vector2.LEFT, Vector2.RIGHT]
-
 
 var position: Vector2 # Diggers current position
 var direction: Vector2 # Diggers current direction

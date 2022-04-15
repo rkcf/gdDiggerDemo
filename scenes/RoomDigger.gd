@@ -26,7 +26,9 @@ func live() -> void:
 	if new_room:
 		self.room = new_room
 		dig_room(new_room)
-	destroy()
+	else:
+		emit_signal("job_completed", self)
+
 
 # Make a new randomly generated Room2D object
 func create_room() -> Room2D:
@@ -96,3 +98,5 @@ func dig_room(room: Room2D) -> void:
 				dig()
 				if Globals.config["animate"]:
 					yield(get_tree().create_timer(self.wait_time), "timeout")
+	# set that we have completed our job
+	emit_signal("job_completed")

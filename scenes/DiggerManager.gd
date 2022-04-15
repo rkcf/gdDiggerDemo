@@ -18,9 +18,9 @@ var corridor_digger = preload("res://scenes/CorridorDigger.tscn")
 onready var rooms_tile_map: TileMap = $RoomsTileMap
 onready var corridors_tile_map: TileMap = $CorridorsTileMap
 onready var diggers: Node = $Diggers # Digger node container
-onready var generation_input: SpinBox = $UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/HBoxContainer/Generations/Generations
-onready var max_width_input: SpinBox = $UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/HBoxContainer/Width/Width
-onready var max_height_input: SpinBox = $UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/HBoxContainer/Height/Height
+onready var generation_input: SpinBox = $UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/BottomRow/Generations/Generations
+onready var max_width_input: SpinBox = $UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/BottomRow/Width/Width
+onready var max_height_input: SpinBox = $UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/BottomRow/Height/Height
 onready var ui = $UI/Control/UIPanel
 
 
@@ -46,7 +46,9 @@ func generate_level() -> void:
 #		for digger in diggers.get_children():
 #			digger.queue_free()
 		var room: Room2D = null
-		room = create_room(start_position)
+		var rd: RoomDigger = create_room(start_position)
+		room = rd.room
+		yield(rd, "job_completed")
 		
 		# Make sure we could make the generation starting room
 #		print(room)
@@ -62,10 +64,15 @@ func generate_level() -> void:
 			if self.level_boundary.has_point(rand_wall):
 				cd = spawn_corridor_digger(room.random_wall())
 				cd.live()
-				yield(cd, "digger_died")
-				room = create_room(cd.position)
+				yield(cd, "job_completed") # Wait until cd has died to spawn a room digger here
+				rd = spawn_room_digger(cd.position)
+				rd.live()
+				yield(rd, "job_completed") # Wait until the digger has died to go onto the next Corridor
+				room = rd.room
 				if room == null:
 					break
+			
+#		yield(rd, "digger_died") # Wait until cd has died to spawn a room digger here
 
 		# set the start position for the next generation to be in the last room generated in the current generation
 		if room:
@@ -81,10 +88,10 @@ func generate_level() -> void:
 			break
 
 
-func create_room(start_position: Vector2) -> Room2D:
+func create_room(start_position: Vector2) -> RoomDigger:
 	var rd: RoomDigger = spawn_room_digger(start_position)
 	rd.live()
-	return(rd.room)
+	return(rd)
 
 
 func spawn_room_digger(start_position: Vector2) -> RoomDigger:
@@ -103,7 +110,7 @@ func spawn_corridor_digger(start_position: Vector2) -> CorridorDigger:
 # Reload the scene tree
 func reload() -> void:
 	cleanup()
-#	yield(get_tree().create_timer(1), "timeout") # Wait 1 second for cleanup
+	yield(get_tree().create_timer(.25), "timeout") # Wait for cleanup
 	generate_level()
 
 

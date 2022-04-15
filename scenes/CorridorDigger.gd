@@ -31,7 +31,7 @@ func live() -> void:
 				yield(get_tree().create_timer(self.wait_time), "timeout")
 		if steps_since_turn >= max_steps_to_turn:
 			turn(get_weighted_direction())
-	destroy()
+	emit_signal("job_completed", self)
 
 
 func destroy() -> void:
