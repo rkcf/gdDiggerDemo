@@ -252,16 +252,26 @@ script = ExtResource( 9 )
 config_dict = 2
 option = "similar_sized_rooms"
 
-[node name="Label" type="Label" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/Row2"]
+[node name="AvoidOverlap" type="CheckButton" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/Row2"]
 margin_left = 916.0
+margin_right = 1204.0
+margin_bottom = 64.0
+pressed = true
+text = "Avoid Overlap"
+script = ExtResource( 9 )
+config_dict = 2
+option = "avoid_overlap"
+
+[node name="Label" type="Label" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/Row2"]
+margin_left = 1236.0
 margin_top = 19.0
-margin_right = 1172.0
+margin_right = 1492.0
 margin_bottom = 44.0
 text = "Room Pick Method"
 
 [node name="RoomPickMethod" type="OptionButton" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/Row2"]
-margin_left = 1204.0
-margin_right = 1233.0
+margin_left = 1524.0
+margin_right = 1553.0
 margin_bottom = 64.0
 script = ExtResource( 10 )
 config_dict = 1
