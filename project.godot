@@ -48,6 +48,10 @@ config/name="gdDiggerDemo"
 run/main_scene="res://scenes/DiggerManager.tscn"
 config/icon="res://icon.png"
 
+[autoload]
+
+Globals="*res://common/Globals.gd"
+
 [display]
 
 window/size/width=1920

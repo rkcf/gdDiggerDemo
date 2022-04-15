@@ -27,7 +27,8 @@ func live() -> void:
 		# See if we have already dug here
 		if tile_map.get_cellv(self.position) != tile_map.INVALID_CELL:
 			dig()
-			yield(get_tree().create_timer(self.wait_time), "timeout")
+			if Globals.config["animate"]:
+				yield(get_tree().create_timer(self.wait_time), "timeout")
 		if steps_since_turn >= max_steps_to_turn:
 			turn(get_weighted_direction())
 	destroy()

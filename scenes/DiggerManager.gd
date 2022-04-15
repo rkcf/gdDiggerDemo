@@ -21,9 +21,14 @@ onready var diggers: Node = $Diggers # Digger node container
 onready var generation_input: SpinBox = $UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/HBoxContainer/Generations/Generations
 onready var max_width_input: SpinBox = $UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/HBoxContainer/Width/Width
 onready var max_height_input: SpinBox = $UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/HBoxContainer/Height/Height
+onready var ui = $UI/Control/UIPanel
 
 
 func _ready() -> void:
+	
+	# Connect to UI for config stuff
+	ui.connect("ui_config_changed", self, "_handle_ui_config_change")
+	
 	self.level_boundary = Rect2(1, 1, max_width - 2, max_height - 2)
 
 # Main level generation function
@@ -131,6 +136,13 @@ func set_max_height(value: int) -> void:
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_select"): # space bar
 		reload()
+
+
+func _handle_ui_config_change() -> void:
+	# reload config
+	pass
+
+
 
 
 func _on_GenerateButton_pressed() -> void:

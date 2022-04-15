@@ -13,6 +13,11 @@ font_data = ExtResource( 4 )
 
 [sub_resource type="Theme" id=3]
 default_font = SubResource( 2 )
+CheckButton/colors/font_color = Color( 0.0313726, 0.0156863, 0, 1 )
+CheckButton/colors/font_color_focus = Color( 0.0313726, 0.0156863, 0, 1 )
+CheckButton/colors/font_color_hover = Color( 0.0313726, 0.0156863, 0, 1 )
+CheckButton/colors/font_color_hover_pressed = Color( 0.0313726, 0.0156863, 0, 1 )
+CheckButton/colors/font_color_pressed = Color( 0.0313726, 0.0156863, 0, 1 )
 Label/colors/font_color = Color( 0.0313726, 0.0156863, 0, 1 )
 
 [node name="DiggerManager" type="Node"]
@@ -79,23 +84,36 @@ margin_top = 16.0
 margin_right = 984.0
 margin_bottom = 284.0
 
-[node name="GenerateButton" type="Button" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer"]
+[node name="TopRow" type="HBoxContainer" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer"]
+margin_right = 968.0
+margin_bottom = 40.0
+custom_constants/separation = 32
+
+[node name="GenerateButton" type="Button" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/TopRow"]
 margin_right = 164.0
 margin_bottom = 35.0
 size_flags_horizontal = 0
 size_flags_vertical = 0
 text = "Generate"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer"]
-margin_top = 39.0
-margin_right = 968.0
-margin_bottom = 143.0
+[node name="AnimateToggle" type="CheckButton" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/TopRow"]
+margin_left = 196.0
+margin_right = 409.0
+margin_bottom = 40.0
+text = "Animate"
+align = 1
 
-[node name="Generations" type="VBoxContainer" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="BottomRow" type="HBoxContainer" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer"]
+margin_top = 44.0
+margin_right = 968.0
+margin_bottom = 148.0
+custom_constants/separation = 32
+
+[node name="Generations" type="VBoxContainer" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/BottomRow"]
 margin_right = 254.0
 margin_bottom = 104.0
 
-[node name="Generations" type="SpinBox" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/HBoxContainer/Generations"]
+[node name="Generations" type="SpinBox" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/BottomRow/Generations"]
 margin_right = 254.0
 margin_bottom = 39.0
 min_value = 1.0
@@ -103,19 +121,19 @@ max_value = 20.0
 value = 20.0
 allow_greater = true
 
-[node name="Label" type="Label" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/HBoxContainer/Generations"]
+[node name="Label" type="Label" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/BottomRow/Generations"]
 margin_top = 43.0
 margin_right = 254.0
 margin_bottom = 104.0
 text = "# Generations
 "
 
-[node name="Width" type="VBoxContainer" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/HBoxContainer"]
-margin_left = 258.0
-margin_right = 512.0
+[node name="Width" type="VBoxContainer" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/BottomRow"]
+margin_left = 286.0
+margin_right = 540.0
 margin_bottom = 104.0
 
-[node name="Width" type="SpinBox" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/HBoxContainer/Width"]
+[node name="Width" type="SpinBox" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/BottomRow/Width"]
 margin_right = 254.0
 margin_bottom = 39.0
 min_value = 10.0
@@ -124,7 +142,7 @@ step = 10.0
 value = 300.0
 allow_greater = true
 
-[node name="Label" type="Label" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/HBoxContainer/Width"]
+[node name="Label" type="Label" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/BottomRow/Width"]
 margin_top = 43.0
 margin_right = 254.0
 margin_bottom = 104.0
@@ -132,12 +150,12 @@ text = "Width
 "
 align = 1
 
-[node name="Height" type="VBoxContainer" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/HBoxContainer"]
-margin_left = 516.0
-margin_right = 770.0
+[node name="Height" type="VBoxContainer" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/BottomRow"]
+margin_left = 572.0
+margin_right = 826.0
 margin_bottom = 104.0
 
-[node name="Height" type="SpinBox" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/HBoxContainer/Height"]
+[node name="Height" type="SpinBox" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/BottomRow/Height"]
 margin_right = 254.0
 margin_bottom = 39.0
 min_value = 10.0
@@ -146,7 +164,7 @@ step = 10.0
 value = 150.0
 allow_greater = true
 
-[node name="Label" type="Label" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/HBoxContainer/Height"]
+[node name="Label" type="Label" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/BottomRow/Height"]
 margin_top = 43.0
 margin_right = 254.0
 margin_bottom = 72.0
@@ -160,7 +178,8 @@ zoom = Vector2( 6, 6 )
 script = ExtResource( 5 )
 
 [connection signal="gui_input" from="UI/Control/UIPanel" to="UI/Control/UIPanel" method="_on_UIPanel_gui_input"]
-[connection signal="pressed" from="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/GenerateButton" to="." method="_on_GenerateButton_pressed"]
-[connection signal="value_changed" from="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/HBoxContainer/Generations/Generations" to="." method="_on_Generations_value_changed"]
-[connection signal="value_changed" from="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/HBoxContainer/Width/Width" to="." method="_on_Width_value_changed"]
-[connection signal="value_changed" from="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/HBoxContainer/Height/Height" to="." method="_on_Height_value_changed"]
+[connection signal="pressed" from="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/TopRow/GenerateButton" to="." method="_on_GenerateButton_pressed"]
+[connection signal="pressed" from="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/TopRow/AnimateToggle" to="UI/Control/UIPanel" method="_on_AnimateToggle_pressed"]
+[connection signal="value_changed" from="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/BottomRow/Generations/Generations" to="." method="_on_Generations_value_changed"]
+[connection signal="value_changed" from="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/BottomRow/Width/Width" to="." method="_on_Width_value_changed"]
+[connection signal="value_changed" from="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/BottomRow/Height/Height" to="." method="_on_Height_value_changed"]

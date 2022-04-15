@@ -94,4 +94,5 @@ func dig_room(room: Room2D) -> void:
 				self.position = next_dig
 				body.position = next_dig * 32
 				dig()
-				yield(get_tree().create_timer(self.wait_time), "timeout")
+				if Globals.config["animate"]:
+					yield(get_tree().create_timer(self.wait_time), "timeout")
