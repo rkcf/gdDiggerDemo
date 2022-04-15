@@ -34,7 +34,3 @@ func live() -> void:
 	emit_signal("job_completed", self)
 
 
-func destroy() -> void:
-	# spawn new room digger
-	print("CorridorDigger Died")
-	emit_signal("digger_died", self)

@@ -48,9 +48,7 @@ func live() -> void:
 
 # Called on the death of a digger
 func destroy() -> void:
-	# spawn new room digger
-	print("Digger Died")
-	emit_signal("digger_died", self)
+	queue_free()
 
 # dig out an area
 func dig() -> void:

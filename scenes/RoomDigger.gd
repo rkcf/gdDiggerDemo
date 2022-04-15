@@ -27,6 +27,7 @@ func live() -> void:
 		self.room = new_room
 		dig_room(new_room)
 	else:
+		print("abandoning job")
 		emit_signal("job_completed", self)
 
 
@@ -76,11 +77,6 @@ func create_room() -> Room2D:
 	return new_room
 
 
-func destroy() -> void:
-	print("RoomDigger Died")
-	emit_signal("digger_died", self)
-
-
 func dig_room(room: Room2D) -> void:
 	print("Digging Room at %s" % self.position)
 	for x in room.size.x:
@@ -99,4 +95,5 @@ func dig_room(room: Room2D) -> void:
 				if Globals.config["animate"]:
 					yield(get_tree().create_timer(self.wait_time), "timeout")
 	# set that we have completed our job
+	print("job completed")
 	emit_signal("job_completed")

@@ -39,45 +39,42 @@ func generate_level() -> void:
 	var starty: int = round(rng.randfn(max_height / 2, max_height / 10))
 	var start_position: Vector2 = Vector2(startx, starty)
 	
+	var generation_room: Room2D = null # The starting room for the generation
+	var rd: RoomDigger = null
+	rd = spawn_room_digger(start_position)
+	rd.live()
+	yield(rd, "job_completed")
+	generation_room = rd.room
+	rd.destroy()
+
+	# Make sure we could make the generation starting room
+	if generation_room == null:
+		pass # TODO add an actual check for starting room
+
 	self.generations_left = n_generations
 	while generations_left > 0:
-		# cleanup diggers from previous generation
-		# TODO FIXME need to add some sort of wait here for room diggers to finish
-#		for digger in diggers.get_children():
-#			digger.queue_free()
-		var room: Room2D = null
-		var rd: RoomDigger = create_room(start_position)
-		room = rd.room
-		yield(rd, "job_completed")
-		
-		# Make sure we could make the generation starting room
-#		print(room)
-		if room == null:
-			break
-
-		# Spawn random number of corridor diggers, M=3 SD=2
-		var n_corridor_diggers: int = round(rng.randfn(3, 1))
-		var cd: CorridorDigger
+		# Spawn random number of corridor diggers, M=2 SD=1
+		var n_corridor_diggers: int = round(rng.randfn(2, 1))
+		var cd: CorridorDigger = null
+		var next_room: Room2D = null
 		for i in range(0, n_corridor_diggers):
-			# TODO FIXME periodic bug where we get to this point when room == null even with previous check
-			var rand_wall = room.random_wall()
+			var rand_wall = generation_room.random_wall()
 			if self.level_boundary.has_point(rand_wall):
-				cd = spawn_corridor_digger(room.random_wall())
+				cd = spawn_corridor_digger(rand_wall)
 				cd.live()
 				yield(cd, "job_completed") # Wait until cd has died to spawn a room digger here
+				cd.destroy()
 				rd = spawn_room_digger(cd.position)
 				rd.live()
 				yield(rd, "job_completed") # Wait until the digger has died to go onto the next Corridor
-				room = rd.room
-				if room == null:
-					break
-			
-#		yield(rd, "digger_died") # Wait until cd has died to spawn a room digger here
+				if rd.room:
+					next_room = rd.room
+				rd.destroy()
+
 
 		# set the start position for the next generation to be in the last room generated in the current generation
-		if room:
-			var rand_room_pos = room.random_position()
-			
+		if generation_room:
+			var rand_room_pos = generation_room.random_position()
 			# Make sure room_position is within boundaries
 			if self.level_boundary.has_point(rand_room_pos):
 				start_position = rand_room_pos
