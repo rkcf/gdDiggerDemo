@@ -119,7 +119,10 @@ func spawn_generation(generation_room: Room2D):
 func check_if_good_to_build(position: Vector2) -> bool:
 	if Globals.digger_config["avoid_overlap"]:
 		var buffer_size = Globals.digger_config["max_room_size"] # How big of an area do we want to look for rooms in
-		var area = Rect2(position, Vector2(buffer_size, buffer_size))
+		# Shift the position of the buffer zone up and to the left so we have the occasional overlap
+		var offset_x = position.x - buffer_size / 2
+		var offset_y = position.y - buffer_size / 2
+		var area = Rect2(Vector2(offset_x, offset_y), Vector2(buffer_size, buffer_size))
 		for room in rooms:
 			if area.intersects(room.area): # If the proposed building site intersects with a previously made room we don't build here
 				return false

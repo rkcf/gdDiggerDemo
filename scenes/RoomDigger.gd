@@ -25,7 +25,7 @@ func spawn(starting_position: Vector2, starting_direction: Vector2, new_boundary
 	self.similar_sized_rooms = Globals.digger_config["similar_sized_rooms"]
 	
 	# Room Diggers always dig down
-	turn(Vector2.DOWN)
+	turn(starting_direction)
 	# Always dig out the starting tile
 
 
@@ -50,18 +50,14 @@ func dig_room():
 	for x in room.size.x:
 		for y in room.size.y:
 			var next_dig: Vector2 = room.position + Vector2(x, y)
-			var next_next_dig: Vector2 = next_dig + Vector2.DOWN # we can see through walls to see if there is something built aready
-			# TODO Prevent issue where we do not connect to corridor because of this check
-			# TODO check if cell is room or corridor
-			# TODO cbeck all directions instead of just down
-#			if tile_map.get_cellv(next_next_dig) == -1:
-#				break
+
 			if self.boundary.has_point(next_dig):
 				self.position = next_dig
 				body.position = next_dig * 32
 				dig()
 				if Globals.ui_config["animate"]:
 					yield(get_tree().create_timer(self.wait_time), "timeout")
+
 	# set that we have completed our job
 	print("room dig job completed")
 	self.job_complete = true
