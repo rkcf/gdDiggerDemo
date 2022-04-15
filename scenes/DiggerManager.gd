@@ -43,7 +43,12 @@ func generate_level() -> void:
 	var generation_room: Room2D = null # The starting room for the generation
 	var rd: RoomDigger = null
 	rd = spawn_room_digger(start_position)
-	yield(rd.live(), "job_completed")
+	if Globals.config["animate"]:
+		yield(rd.live(), "completed")
+	else:
+		rd.live()
+	
+	print("Done yielding")
 	if rd.room:
 		add_room(rd.room)
 		generation_room = rd.room
@@ -57,7 +62,10 @@ func generate_level() -> void:
 		var generation_index: int = 0
 		var next_room: Room2D = generation_room
 		while generations_left > 0:
-			yield(spawn_generation(next_room), "completed")
+			if Globals.config["animate"]:
+				yield(spawn_generation(next_room), "completed")
+			else:
+				spawn_generation(next_room)
 			print("Generation %s Finished" % generation_index)
 			next_room = rooms[randi() % rooms.size()]
 			generations_left -= 1
@@ -73,12 +81,18 @@ func spawn_generation(generation_room: Room2D):
 		var rand_wall = generation_room.random_wall()
 		if self.level_boundary.has_point(rand_wall):
 			var cd: CorridorDigger = spawn_corridor_digger(rand_wall)
-			yield(cd.live(), "job_completed") # Wait until cd has died to spawn a room digger here
-			
+			if Globals.config["animate"]:
+				yield(cd.live(), "completed") # Wait until cd has died to spawn a room digger here
+			else:
+				cd.live()
+			print("Done Yielding for corridor digger")
 			# Make sure cd.position is in level
 			if self.level_boundary.has_point(cd.position):
 				var rd: RoomDigger = spawn_room_digger(cd.position)
-				yield(rd.live(), "job_completed") # Wait until the digger has died to go onto the next Corridor
+				if Globals.config["animate"]:
+					yield(rd.live(), "completed") # Wait until the digger has died to go onto the next Corridor
+				else:
+					rd.live()
 				if rd.room:
 					add_room(rd.room)
 				rd.destroy()
@@ -154,8 +168,6 @@ func _input(event: InputEvent) -> void:
 func _handle_ui_config_change() -> void:
 	# reload config
 	pass
-
-
 
 
 func _on_GenerateButton_pressed() -> void:

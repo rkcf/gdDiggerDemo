@@ -2,11 +2,14 @@ class_name RoomDigger
 extends Digger
 
 
+signal room_dug
+
 
 var max_room_size: int = 14
 var min_room_size: int = 3
 var similar_sized_rooms: bool = true # Whether we want our room sizes to be around the average room size
 var room: Room2D = null
+var job_complete: bool = false
 
 # Create a new Digger
 func spawn(starting_position: Vector2, new_boundary: Rect2, new_map: TileMap) -> void:
@@ -21,17 +24,44 @@ func spawn(starting_position: Vector2, new_boundary: Rect2, new_map: TileMap) ->
 	# Always dig out the starting tile
 
 
-func live() -> RoomDigger:
+func live():
 	var new_room: Room2D = create_room()
 	# Check to see if we have abandoned the building project due to out of bounds issues
 	if new_room:
+		print(new_room)
 		self.room = new_room
 		dig_room()
-		return self
+		if !job_complete:
+			yield(self, "room_dug")
+		else:
+			emit_signal("completed")
+		print("Room Digger has no reason to live")
 	else:
 		print("abandoning room dig job")
-		emit_signal("job_completed", self)
-		return self
+
+
+func dig_room():
+	print("Digging Room at %s" % self.position)
+	for x in room.size.x:
+		for y in room.size.y:
+			var next_dig: Vector2 = room.position + Vector2(x, y)
+			var next_next_dig: Vector2 = next_dig + Vector2.DOWN # we can see through walls to see if there is something built aready
+			# TODO Prevent issue where we do not connect to corridor because of this check
+			# TODO check if cell is room or corridor
+			# TODO cbeck all directions instead of just down
+#			if tile_map.get_cellv(next_next_dig) == -1:
+#				break
+			if self.boundary.has_point(next_dig):
+				self.position = next_dig
+				body.position = next_dig * 32
+				dig()
+				if Globals.config["animate"]:
+					yield(get_tree().create_timer(self.wait_time), "timeout")
+	# set that we have completed our job
+	print("room dig job completed")
+	self.job_complete = true
+	emit_signal("room_dug")
+
 
 # Called on the death of a digger
 func destroy() -> void:
@@ -84,24 +114,3 @@ func create_room() -> Room2D:
 	var new_room: Room2D = Room2D.new(position, size)
 	return new_room
 
-
-func dig_room() -> void:
-	print("Digging Room at %s" % self.position)
-	for x in room.size.x:
-		for y in room.size.y:
-			var next_dig: Vector2 = room.position + Vector2(x, y)
-			var next_next_dig: Vector2 = next_dig + Vector2.DOWN # we can see through walls to see if there is something built aready
-			# TODO Prevent issue where we do not connect to corridor because of this check
-			# TODO check if cell is room or corridor
-			# TODO cbeck all directions instead of just down
-			if tile_map.get_cellv(next_next_dig) == -1:
-				break
-			if self.boundary.has_point(next_dig):
-				self.position = next_dig
-				body.position = next_dig * 32
-				dig()
-				if Globals.config["animate"]:
-					yield(get_tree().create_timer(self.wait_time), "timeout")
-	# set that we have completed our job
-	print("room dig job completed")
-	emit_signal("job_completed")

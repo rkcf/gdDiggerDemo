@@ -2,6 +2,9 @@ class_name CorridorDigger
 extends Digger
 
 
+signal corridor_dug
+
+
 var corridor_width: int = 1
 
 # Create a new Digger
@@ -21,9 +24,10 @@ func spawn(starting_position: Vector2, new_boundary: Rect2, new_map: TileMap) ->
 
 
 # Main running loop for CorridorDigger
-func live() -> CorridorDigger:
+func live():
 	dig_corridor()
-	return self
+	yield(self, "corridor_dug")
+	print("Corridor Digger has no reason to live")
 
 
 # Called on the death of a digger
@@ -47,5 +51,4 @@ func dig_corridor() -> void:
 		life_length -= 1
 
 	print("corridor dig job completed")
-	emit_signal("job_completed", self)
-	return self
+	emit_signal("corridor_dug")
