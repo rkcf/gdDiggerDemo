@@ -2,6 +2,9 @@ class_name DiggerManager
 extends Node
 
 
+signal generation_finished
+
+
 export (int) var max_width = 300 setget set_max_width
 export (int) var max_height = 150 setget set_max_height
 export (int) var cell_size = 32
@@ -9,6 +12,7 @@ export (int) var n_generations = 20 setget set_n_generations# total number of ge
 
 var generations_left: int
 var level_boundary: Rect2
+var rooms: Array = []
 
 var rng: RandomNumberGenerator = RandomNumberGenerator.new()
 
@@ -44,6 +48,7 @@ func generate_level() -> void:
 	rd = spawn_room_digger(start_position)
 	rd.live()
 	yield(rd, "job_completed")
+	rooms.append(rd.room)
 	generation_room = rd.room
 	rd.destroy()
 
@@ -52,37 +57,36 @@ func generate_level() -> void:
 		pass # TODO add an actual check for starting room
 
 	self.generations_left = n_generations
+	var next_room: Room2D = generation_room
 	while generations_left > 0:
-		# Spawn random number of corridor diggers, M=2 SD=1
-		var n_corridor_diggers: int = round(rng.randfn(2, 1))
-		var cd: CorridorDigger = null
-		var next_room: Room2D = null
-		for i in range(0, n_corridor_diggers):
-			var rand_wall = generation_room.random_wall()
-			if self.level_boundary.has_point(rand_wall):
-				cd = spawn_corridor_digger(rand_wall)
-				cd.live()
-				yield(cd, "job_completed") # Wait until cd has died to spawn a room digger here
-				cd.destroy()
-				rd = spawn_room_digger(cd.position)
-				rd.live()
-				yield(rd, "job_completed") # Wait until the digger has died to go onto the next Corridor
-				if rd.room:
-					next_room = rd.room
-				rd.destroy()
+		spawn_generation(next_room)
+		yield(self, "generation_finished")
+		next_room = rooms[randi() % rooms.size()]
+		n_generations -= 1
 
 
-		# set the start position for the next generation to be in the last room generated in the current generation
-		if generation_room:
-			var rand_room_pos = generation_room.random_position()
-			# Make sure room_position is within boundaries
-			if self.level_boundary.has_point(rand_room_pos):
-				start_position = rand_room_pos
-				self.generations_left -= 1
-			else:
-				print("Early Generation Extinction")
-		else:
-			break
+# Spawn a generation from a starting room
+func spawn_generation(generation_room: Room2D):
+	# Spawn random number of corridor diggers, M=2 SD=1
+	var n_corridor_diggers: int = round(rng.randfn(2, 1))
+	var cd: CorridorDigger = null
+	
+	for i in range(0, n_corridor_diggers):
+		var rd: RoomDigger = null
+		var rand_wall = generation_room.random_wall()
+		if self.level_boundary.has_point(rand_wall):
+			cd = spawn_corridor_digger(rand_wall)
+			cd.live()
+			yield(cd, "job_completed") # Wait until cd has died to spawn a room digger here
+			rd = spawn_room_digger(cd.position)
+			rd.live()
+			yield(rd, "job_completed") # Wait until the digger has died to go onto the next Corridor
+			rooms.append(rd.room)
+			
+			cd.destroy()
+			rd.destroy()
+
+	emit_signal("generation_finished")
 
 
 func create_room(start_position: Vector2) -> RoomDigger:
