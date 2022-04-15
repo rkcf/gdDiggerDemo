@@ -1,5 +1,7 @@
 extends Node
 
+enum ConfigDicts {UI_CONFIG, GEN_CONFIG, DIGGER_CONFIG}
+
 # Configuration for UI type stuff
 var ui_config: Dictionary = {
 	"animate": false, # Whether we animate the digging process
@@ -16,5 +18,8 @@ var gen_config: Dictionary = {
 
 # Digger specific parameters
 var digger_config: Dictionary = {
-	
+	"max_room_size": 14,
+	"min_room_size": 3,
+	"similar_sized_rooms": true
 }
+

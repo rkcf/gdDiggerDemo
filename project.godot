@@ -24,6 +24,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://scenes/DiggerManager.gd"
 }, {
+"base": "SpinBox",
+"class": "ParamSpinbox",
+"language": "GDScript",
+"path": "res://scenes/ParamSpinbox.gd"
+}, {
 "base": "Node",
 "class": "Room2D",
 "language": "GDScript",
@@ -38,6 +43,7 @@ _global_script_class_icons={
 "CorridorDigger": "",
 "Digger": "",
 "DiggerManager": "",
+"ParamSpinbox": "",
 "Room2D": "",
 "RoomDigger": ""
 }

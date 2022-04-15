@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://scenes/DiggerManager.gd" type="Script" id=1]
 [ext_resource path="res://common/assets/tilemap.tres" type="TileSet" id=2]
@@ -7,9 +7,10 @@
 [ext_resource path="res://scenes/Camera.gd" type="Script" id=5]
 [ext_resource path="res://scenes/UIPanel.gd" type="Script" id=6]
 [ext_resource path="res://scenes/Room2D.tscn" type="PackedScene" id=7]
+[ext_resource path="res://scenes/ParamSpinbox.gd" type="Script" id=8]
 
 [sub_resource type="DynamicFont" id=2]
-size = 32
+size = 28
 font_data = ExtResource( 4 )
 
 [sub_resource type="Theme" id=3]
@@ -88,6 +89,7 @@ margin_left = 16.0
 margin_top = 16.0
 margin_right = 984.0
 margin_bottom = 284.0
+custom_constants/separation = 16
 
 [node name="TopRow" type="HBoxContainer" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer"]
 margin_right = 968.0
@@ -95,92 +97,151 @@ margin_bottom = 40.0
 custom_constants/separation = 32
 
 [node name="GenerateButton" type="Button" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/TopRow"]
-margin_right = 164.0
-margin_bottom = 35.0
+margin_right = 140.0
+margin_bottom = 31.0
 size_flags_horizontal = 0
 size_flags_vertical = 0
 text = "Generate"
 
-[node name="AnimateToggle" type="CheckButton" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/TopRow" groups=["option_controls"]]
-margin_left = 196.0
-margin_right = 409.0
+[node name="AnimateToggle" type="CheckButton" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/TopRow"]
+margin_left = 172.0
+margin_right = 364.0
 margin_bottom = 40.0
 text = "Animate"
 align = 1
 
-[node name="DrawWallsToggle" type="CheckButton" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/TopRow" groups=["option_controls"]]
-margin_left = 441.0
-margin_right = 711.0
+[node name="DrawWallsToggle" type="CheckButton" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/TopRow"]
+margin_left = 396.0
+margin_right = 636.0
 margin_bottom = 40.0
 text = "Draw Walls"
 
-[node name="BottomRow" type="HBoxContainer" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer"]
-margin_top = 44.0
+[node name="MiddleRow" type="HBoxContainer" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer"]
+margin_top = 56.0
 margin_right = 968.0
 margin_bottom = 148.0
 custom_constants/separation = 32
 
-[node name="Generations" type="VBoxContainer" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/BottomRow"]
-margin_right = 254.0
-margin_bottom = 104.0
+[node name="Generations" type="VBoxContainer" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/MiddleRow"]
+margin_right = 218.0
+margin_bottom = 92.0
 
-[node name="Generations" type="SpinBox" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/BottomRow/Generations" groups=["option_controls"]]
-margin_right = 254.0
-margin_bottom = 39.0
+[node name="value" type="SpinBox" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/MiddleRow/Generations"]
+margin_right = 218.0
+margin_bottom = 35.0
 min_value = 1.0
 max_value = 20.0
 value = 20.0
 allow_greater = true
+script = ExtResource( 8 )
+config_dict = 1
+option = "n_generations"
 
-[node name="Label" type="Label" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/BottomRow/Generations"]
-margin_top = 43.0
-margin_right = 254.0
-margin_bottom = 104.0
+[node name="Label" type="Label" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/MiddleRow/Generations"]
+margin_top = 39.0
+margin_right = 218.0
+margin_bottom = 92.0
 text = "# Generations
 "
 
-[node name="Width" type="VBoxContainer" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/BottomRow"]
-margin_left = 286.0
-margin_right = 540.0
-margin_bottom = 104.0
+[node name="Width" type="VBoxContainer" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/MiddleRow"]
+margin_left = 250.0
+margin_right = 468.0
+margin_bottom = 92.0
 
-[node name="Width" type="SpinBox" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/BottomRow/Width" groups=["option_controls"]]
-margin_right = 254.0
-margin_bottom = 39.0
+[node name="value" type="SpinBox" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/MiddleRow/Width"]
+margin_right = 218.0
+margin_bottom = 35.0
 min_value = 10.0
 max_value = 1000.0
 step = 10.0
 value = 300.0
 allow_greater = true
+script = ExtResource( 8 )
+config_dict = 1
+option = "level_width"
 
-[node name="Label" type="Label" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/BottomRow/Width"]
-margin_top = 43.0
-margin_right = 254.0
-margin_bottom = 104.0
+[node name="Label" type="Label" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/MiddleRow/Width"]
+margin_top = 39.0
+margin_right = 218.0
+margin_bottom = 92.0
 text = "Width
 "
 align = 1
 
-[node name="Height" type="VBoxContainer" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/BottomRow"]
-margin_left = 572.0
-margin_right = 826.0
-margin_bottom = 104.0
+[node name="Height" type="VBoxContainer" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/MiddleRow"]
+margin_left = 500.0
+margin_right = 718.0
+margin_bottom = 92.0
 
-[node name="Height" type="SpinBox" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/BottomRow/Height" groups=["option_controls"]]
-margin_right = 254.0
-margin_bottom = 39.0
+[node name="value" type="SpinBox" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/MiddleRow/Height"]
+margin_right = 218.0
+margin_bottom = 35.0
 min_value = 10.0
 max_value = 1000.0
 step = 10.0
 value = 150.0
 allow_greater = true
+script = ExtResource( 8 )
+config_dict = 1
+option = "level_height"
 
-[node name="Label" type="Label" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/BottomRow/Height"]
-margin_top = 43.0
-margin_right = 254.0
-margin_bottom = 72.0
+[node name="Label" type="Label" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/MiddleRow/Height"]
+margin_top = 39.0
+margin_right = 218.0
+margin_bottom = 64.0
 text = "Height"
 align = 1
+
+[node name="BottomRow" type="HBoxContainer" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer"]
+margin_top = 164.0
+margin_right = 968.0
+margin_bottom = 228.0
+custom_constants/separation = 32
+
+[node name="MaxRoomSize" type="VBoxContainer" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/BottomRow"]
+margin_right = 218.0
+margin_bottom = 64.0
+
+[node name="value" type="SpinBox" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/BottomRow/MaxRoomSize"]
+margin_right = 218.0
+margin_bottom = 35.0
+script = ExtResource( 8 )
+config_dict = 2
+option = "max_room_size"
+
+[node name="Label" type="Label" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/BottomRow/MaxRoomSize"]
+margin_top = 39.0
+margin_right = 218.0
+margin_bottom = 64.0
+text = "Max Room Size"
+
+[node name="MinRoomSize" type="VBoxContainer" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/BottomRow"]
+margin_left = 250.0
+margin_right = 468.0
+margin_bottom = 64.0
+
+[node name="value" type="SpinBox" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/BottomRow/MinRoomSize"]
+margin_right = 218.0
+margin_bottom = 35.0
+min_value = 1.0
+value = 1.0
+script = ExtResource( 8 )
+config_dict = 2
+option = "min_room_size"
+
+[node name="Label" type="Label" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/BottomRow/MinRoomSize"]
+margin_top = 39.0
+margin_right = 218.0
+margin_bottom = 64.0
+text = "Min Room Size"
+
+[node name="SimilarSizedRoomsToggle" type="CheckButton" parent="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/BottomRow"]
+margin_left = 500.0
+margin_right = 884.0
+margin_bottom = 64.0
+pressed = true
+text = "Similar Sized Rooms"
 
 [node name="Camera" type="Camera2D" parent="."]
 anchor_mode = 0
@@ -192,6 +253,4 @@ script = ExtResource( 5 )
 [connection signal="pressed" from="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/TopRow/GenerateButton" to="." method="_on_GenerateButton_pressed"]
 [connection signal="pressed" from="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/TopRow/AnimateToggle" to="UI/Control/UIPanel" method="_on_AnimateToggle_pressed"]
 [connection signal="pressed" from="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/TopRow/DrawWallsToggle" to="UI/Control/UIPanel" method="_on_DrawWallsToggle_pressed"]
-[connection signal="value_changed" from="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/BottomRow/Generations/Generations" to="UI/Control/UIPanel" method="_on_Generations_value_changed"]
-[connection signal="value_changed" from="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/BottomRow/Width/Width" to="UI/Control/UIPanel" method="_on_Width_value_changed"]
-[connection signal="value_changed" from="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/BottomRow/Height/Height" to="UI/Control/UIPanel" method="_on_Height_value_changed"]
+[connection signal="pressed" from="UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/BottomRow/SimilarSizedRoomsToggle" to="UI/Control/UIPanel" method="_on_SimilarSizedRoomsToggle_pressed"]

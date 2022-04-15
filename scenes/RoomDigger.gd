@@ -5,9 +5,9 @@ extends Digger
 signal room_dug
 
 
-var max_room_size: int = 14
-var min_room_size: int = 3
-var similar_sized_rooms: bool = true # Whether we want our room sizes to be around the average room size
+var max_room_size: int
+var min_room_size: int
+var similar_sized_rooms: bool # Whether we want our room sizes to be around the average room size
 var room: Room2D = null
 var job_complete: bool = false
 
@@ -19,6 +19,11 @@ func spawn(starting_position: Vector2, new_boundary: Rect2, new_map: TileMap) ->
 	body.position = starting_position * 32
 	self.boundary = new_boundary
 	self.tile_map = new_map
+	
+	self.max_room_size = Globals.digger_config["max_room_size"]
+	self.min_room_size = Globals.digger_config["min_room_size"]
+	self.similar_sized_rooms = Globals.digger_config["similar_sized_rooms"]
+	
 	# Room Diggers always dig down
 	turn(Vector2.DOWN)
 	# Always dig out the starting tile

@@ -5,7 +5,7 @@ extends Node
 export (int) var max_width setget set_max_width
 export (int) var max_height setget set_max_height
 export (int) var cell_size
-export (int) var n_generations setget set_n_generations# total number of generations of room diggers
+export (int) var n_generations # total number of generations of room diggers
 
 
 var level_boundary: Rect2
@@ -20,9 +20,9 @@ onready var rooms_tile_map: TileMap = $RoomsTileMap
 onready var corridors_tile_map: TileMap = $CorridorsTileMap
 onready var diggers: Node = $Diggers # Digger node container
 onready var room_container: Node = $Rooms
-onready var generation_input: SpinBox = $UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/BottomRow/Generations/Generations
-onready var max_width_input: SpinBox = $UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/BottomRow/Width/Width
-onready var max_height_input: SpinBox = $UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/BottomRow/Height/Height
+onready var generation_input: SpinBox = $UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/MiddleRow/Generations/Generations
+onready var max_width_input: SpinBox = $UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/MiddleRow/Width/Width
+onready var max_height_input: SpinBox = $UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/MiddleRow/Height/Height
 onready var ui = $UI/Control/UIPanel
 
 
@@ -143,20 +143,13 @@ func cleanup() -> void:
 			corridors_tile_map.set_cell(x, y, corridors_tile_map.get_tileset().get_tiles_ids()[0])
 
 
-func set_n_generations(value: int) -> void:
-	n_generations = value
-	generation_input.value = value
-
-
 func set_max_width(value: int) -> void:
 	max_width = value
-	max_width_input.value = value
 	self.level_boundary = Rect2(1, 1, max_width - 2, max_height - 2)
 
 
 func set_max_height(value: int) -> void:
 	max_height = value
-	max_height_input.value = value
 	self.level_boundary = Rect2(1, 1, max_width - 2, max_height - 2)
 
 
