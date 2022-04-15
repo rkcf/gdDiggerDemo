@@ -8,9 +8,12 @@ var position: Vector2 # upper left position of room
 var size: Vector2 # (width, height) vector giving size of the room
 var area: Rect2
 
+var rng: RandomNumberGenerator = RandomNumberGenerator.new()
+
 
 func _init(new_position: Vector2, new_size: Vector2):
 	randomize()
+	rng.randomize()
 	self.position = new_position
 	self.size = new_size
 	self.area = Rect2(self.position, self.size)
@@ -30,23 +33,22 @@ func random_position() -> Vector2:
 	var rand_pos: Vector2 = position + Vector2(x, y)
 	return rand_pos
 
-# returns random border wall segment position
+# returns a wall border position near the middle of the wall
 func random_wall() -> Vector2:
 	var rand_side = DIRECTIONS[randi() % 4]
 	var rand_segment: Vector2 = Vector2.ZERO
-	# TODO FEATURE have wall segment be around middle
 	match rand_side:
 		Vector2.UP: # Top side
 			rand_segment.y = 0
-			rand_segment.x = round(rand_range(0, size.x - 1))
+			rand_segment.x = rng.randfn(size.x / 2, 1)
 		Vector2.DOWN: # Bottom side
 			rand_segment.y = self.size.y - 1
-			rand_segment.x = round(rand_range(0, size.x - 1))
+			rand_segment.x = rng.randfn(size.x / 2, 1)
 		Vector2.LEFT: # Left side
 			rand_segment.x = 0
-			rand_segment.y = round(rand_range(0, size.y - 1))
+			rand_segment.y = rng.randfn(size.y / 2, 1)
 		Vector2.RIGHT: # Right side
 			rand_segment.x = self.size.x - 1
-			rand_segment.y = round(rand_range(0, size.y - 1))
+			rand_segment.y = rng.randfn(size.y / 2, 1)
 	var rand_wall_pos: Vector2 = position + rand_segment
 	return rand_wall_pos
