@@ -5,7 +5,6 @@ var drag_position = null
 
 
 func _on_UIPanel_gui_input(event: InputEvent) -> void:
-	print("here")
 	if event is InputEventMouseButton:
 		if event.pressed:
 			# drag the panel

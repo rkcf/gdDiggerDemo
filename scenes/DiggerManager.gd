@@ -18,9 +18,9 @@ var corridor_digger = preload("res://scenes/CorridorDigger.tscn")
 onready var rooms_tile_map: TileMap = $RoomsTileMap
 onready var corridors_tile_map: TileMap = $CorridorsTileMap
 onready var diggers: Node = $Diggers # Digger node container
-onready var generation_input: SpinBox = $UI/Control/UIPanel/MarginContainer/VBoxContainer/HBoxContainer/Generations/Generations
-onready var max_width_input: SpinBox = $UI/Control/UIPanel/MarginContainer/VBoxContainer/HBoxContainer/Width/Width
-onready var max_height_input: SpinBox = $UI/Control/UIPanel/MarginContainer/VBoxContainer/HBoxContainer/Height/Height
+onready var generation_input: SpinBox = $UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/HBoxContainer/Generations/Generations
+onready var max_width_input: SpinBox = $UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/HBoxContainer/Width/Width
+onready var max_height_input: SpinBox = $UI/Control/UIPanel/NinePatchRect/MarginContainer/VBoxContainer/HBoxContainer/Height/Height
 
 
 func _ready() -> void:
