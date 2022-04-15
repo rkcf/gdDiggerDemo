@@ -29,7 +29,6 @@ func create_room() -> Room2D:
 		width = round(rand_range(min_room_size, max_room_size))
 		height = round(rand_range(min_room_size, max_room_size))
 
-	
 	# TODO Fix this, make sure rooms are always positioned within the boundary
 	print(position)
 	assert(boundary.has_point(position))

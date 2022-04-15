@@ -75,11 +75,9 @@ func generate_level() -> void:
 			break
 
 
-
 func create_room(start_position: Vector2) -> Room2D:
 	var rd: RoomDigger = spawn_room_digger(start_position)
 	rd.live()
-
 	return(rd.room)
 
 

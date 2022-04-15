@@ -34,14 +34,9 @@ onready var body: KinematicBody2D = $Body
 func _ready() -> void:
 	# Each digger gets fresh target weights
 	target_weights = [up_target, down_target, left_target, right_target]
-#	self.up_target = target_weights[0]
-#	self.down_target = target_weights[1]
-#	self.left_target = target_weights[2]
-#	self.right_target = target_weights[3]
-	
+
 	randomize()
 	rng.randomize()
-
 
 # Create a new Digger
 func spawn(starting_position: Vector2, new_boundary: Rect2, new_map: TileMap) -> void:
@@ -55,7 +50,6 @@ func spawn(starting_position: Vector2, new_boundary: Rect2, new_map: TileMap) ->
 	turn()
 	# Always dig out the starting tile
 	dig()
-
 
 # Main running loop fod Digger
 func live() -> void:
@@ -106,7 +100,7 @@ func turn() -> void:
 	
 	# TODO FIXME makesure weights don't go negative
 	# TODO FEATURE make spawn more likely to havppen in middle of wall for more designed look
-#	 # get a random float between 0 and 1, use our weightings to determine where to go
+	# get a random float between 0 and 1, use our weightings to determine where to go
 	var weight = randf()
 	if weight < up_target:
 		new_direction = Vector2.UP
