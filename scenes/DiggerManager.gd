@@ -44,7 +44,7 @@ func generate_level() -> void:
 		room = create_room(start_position)
 		
 		# Make sure we could make the generation starting room
-		print(room)
+#		print(room)
 		if room == null:
 			break
 

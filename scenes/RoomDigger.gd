@@ -7,6 +7,18 @@ var min_room_size: int = 3
 var similar_sized_rooms: bool = true # Whether we want our room sizes to be around the average room size
 var room: Room2D
 
+# Create a new Digger
+func spawn(starting_position: Vector2, new_boundary: Rect2, new_map: TileMap) -> void:
+	print("Spawning new Room Digger")
+
+	self.position = starting_position
+	body.position = starting_position * 32
+	self.boundary = new_boundary
+	self.tile_map = new_map
+	# get an initial direction facing
+	turn()
+	# Always dig out the starting tile
+	dig()
 
 func live() -> void:
 	var new_room: Room2D = create_room()
@@ -30,7 +42,7 @@ func create_room() -> Room2D:
 		height = round(rand_range(min_room_size, max_room_size))
 
 	# TODO Fix this, make sure rooms are always positioned within the boundary
-	print(position)
+#	print(position)
 	assert(boundary.has_point(position))
 	
 	# We failed to randomly pick a point in space, so we are going to step down from the max size until we find one that works
@@ -54,7 +66,7 @@ func create_room() -> Room2D:
 	# Make sure width and height are within boundary
 	assert(boundary.has_point(Vector2(position.x + width, position.y)))
 	assert(boundary.has_point(Vector2(position.x, position.y + height)))
-	print("size: %s, %s" % [width, height])
+#	print("size: %s, %s" % [width, height])
 	# Create the size vector
 	var size: Vector2 = Vector2(width, height)
 	# Find the top left corner to store the position

@@ -21,6 +21,19 @@ func spawn(starting_position: Vector2, new_boundary: Rect2, new_map: TileMap) ->
 	turn()
 
 
+# Main running loop for CorridorDigger
+func live() -> void:
+	while life_length > 0:
+		move()
+		# See if we have already dug here
+		if tile_map.get_cellv(self.position) != tile_map.INVALID_CELL:
+			dig()
+			yield(get_tree().create_timer(self.wait_time), "timeout")
+		if steps_since_turn >= max_steps_to_turn:
+			turn()
+	destroy()
+
+
 func destroy() -> void:
 	# spawn new room digger
 	print("CorridorDigger Died")

@@ -38,30 +38,13 @@ func _ready() -> void:
 	randomize()
 	rng.randomize()
 
-# Create a new Digger
+
 func spawn(starting_position: Vector2, new_boundary: Rect2, new_map: TileMap) -> void:
-	print("Spawning new Digger")
+	pass
 
-	self.position = starting_position
-	body.position = starting_position * 32
-	self.boundary = new_boundary
-	self.tile_map = new_map
-	# get an initial direction facing
-	turn()
-	# Always dig out the starting tile
-	dig()
-
-# Main running loop fod Digger
 func live() -> void:
-	while life_length > 0:
-		move()
-		# See if we have already dug here
-		if tile_map.get_cellv(self.position) != tile_map.INVALID_CELL:
-			dig()
-			yield(get_tree().create_timer(self.wait_time), "timeout")
-		if steps_since_turn >= max_steps_to_turn:
-			turn()
-	destroy()
+	pass
+
 
 # Called on the death of a digger
 func destroy() -> void:
@@ -93,7 +76,7 @@ func move() -> void:
 # Sets the Digger direction to a new random direction
 func turn() -> void:
 	var new_direction: Vector2
-	print("target direction weights: %s, %s, %s, %s" % [up_target, down_target, left_target, right_target])
+#	print("target direction weights: %s, %s, %s, %s" % [up_target, down_target, left_target, right_target])
 	
 	# These should add up to one
 #	assert(up_target + down_target + left_target + right_target == 1.0)
@@ -127,6 +110,6 @@ func turn() -> void:
 		self.up_target += 0.15
 		self.down_target += 0.15
 
-	print("target direction weights: %s, %s, %s, %s" % [up_target, down_target, left_target, right_target])
+#	print("target direction weights: %s, %s, %s, %s" % [up_target, down_target, left_target, right_target])
 	self.direction = new_direction
 	self.steps_since_turn = 0
