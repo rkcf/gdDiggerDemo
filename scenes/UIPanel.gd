@@ -25,3 +25,7 @@ func _on_CheckBox_pressed() -> void:
 func _on_AnimateToggle_pressed() -> void:
 	Globals.config["animate"] = !Globals.config["animate"]
 	emit_signal("ui_config_changed")
+
+
+func _on_DrawWallsToggle_pressed() -> void:
+	Globals.config["draw_walls"] =!Globals.config["draw_walls"]

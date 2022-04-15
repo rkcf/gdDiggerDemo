@@ -67,7 +67,7 @@ func generate_level() -> void:
 			else:
 				spawn_generation(next_room)
 			print("Generation %s Finished" % generation_index)
-			next_room = rooms[randi() % rooms.size()]
+			next_room = rooms[rooms.size() - 1]
 			generations_left -= 1
 			generation_index += 1
 

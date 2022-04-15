@@ -14,11 +14,14 @@ func _init(new_position: Vector2, new_size: Vector2):
 	self.position = new_position
 	self.size = new_size
 	self.area = Rect2(self.position, self.size)
-	var rrect = ReferenceRect.new()
-	rrect.editor_only = false
-	rrect.rect_position = position * 32
-	rrect.rect_size = size * 32
-	add_child(rrect)
+	
+	# Draw a rectangle around the room if this option is enabled
+	if Globals.config["draw_walls"]:
+		var rrect = ReferenceRect.new()
+		rrect.editor_only = false
+		rrect.rect_position = position * 32
+		rrect.rect_size = size * 32
+		add_child(rrect)
 
 # Returns a random position in global coordinates within the room
 func random_position() -> Vector2:
