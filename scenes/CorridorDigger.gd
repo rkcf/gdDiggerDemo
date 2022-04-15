@@ -8,7 +8,7 @@ signal corridor_dug
 var corridor_width: int = 1
 
 # Create a new Digger
-func spawn(starting_position: Vector2, new_boundary: Rect2, new_map: TileMap) -> void:
+func spawn(starting_position: Vector2, starting_direction: Vector2, new_boundary: Rect2, new_map: TileMap) -> void:
 	print("Spawning new Corridor Digger")
 	self.position = starting_position
 	body.position = starting_position * 32
@@ -20,7 +20,7 @@ func spawn(starting_position: Vector2, new_boundary: Rect2, new_map: TileMap) ->
 	self.max_steps_to_turn = Globals.digger_config["corridor_max_steps_to_turn"]
 	
 	# get an initial direction facing
-	turn(get_weighted_direction())
+	turn(starting_direction)
 
 
 # Main running loop for CorridorDigger

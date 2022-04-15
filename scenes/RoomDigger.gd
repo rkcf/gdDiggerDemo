@@ -12,7 +12,7 @@ var room: Room2D = null
 var job_complete: bool = false
 
 # Create a new Digger
-func spawn(starting_position: Vector2, new_boundary: Rect2, new_map: TileMap) -> void:
+func spawn(starting_position: Vector2, starting_direction: Vector2, new_boundary: Rect2, new_map: TileMap) -> void:
 	print("Spawning new Room Digger")
 
 	self.position = starting_position

@@ -38,7 +38,7 @@ func _ready() -> void:
 	rng.randomize()
 
 
-func spawn(starting_position: Vector2, new_boundary: Rect2, new_map: TileMap) -> void:
+func spawn(starting_position: Vector2, starting_direction: Vector2, new_boundary: Rect2, new_map: TileMap) -> void:
 	pass
 
 

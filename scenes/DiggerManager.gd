@@ -84,9 +84,9 @@ func spawn_generation(generation_room: Room2D):
 	var n_corridor_diggers: int = round(rng.randfn(2, 1) + 1) 
 	
 	while n_corridor_diggers > 0:
-		var rand_wall = generation_room.random_wall()
-		if self.level_boundary.has_point(rand_wall):
-			var cd: CorridorDigger = spawn_corridor_digger(rand_wall)
+		var rand_wall: Dictionary = generation_room.random_wall()
+		if self.level_boundary.has_point(rand_wall["position"]):
+			var cd: CorridorDigger = spawn_corridor_digger(rand_wall["position"], rand_wall["direction"])
 			if Globals.ui_config["animate"]:
 				yield(cd.live(), "completed") # Wait until cd has died to spawn a room digger here
 			else:
@@ -134,14 +134,14 @@ func add_room(room: Room2D) -> void:
 func spawn_room_digger(start_position: Vector2) -> RoomDigger:
 	var digger = room_digger.instance()
 	diggers.add_child(digger)
-	digger.spawn(start_position, self.level_boundary, self.rooms_tile_map)
+	digger.spawn(start_position, Vector2.DOWN, self.level_boundary, self.rooms_tile_map)
 	return digger
 
 
-func spawn_corridor_digger(start_position: Vector2) -> CorridorDigger:
+func spawn_corridor_digger(start_position: Vector2, start_direction: Vector2) -> CorridorDigger:
 	var digger = corridor_digger.instance()
 	diggers.add_child(digger)
-	digger.spawn(start_position, self.level_boundary, self.corridors_tile_map)
+	digger.spawn(start_position, start_direction, self.level_boundary, self.corridors_tile_map)
 	return digger
 
 # Reload the scene tree

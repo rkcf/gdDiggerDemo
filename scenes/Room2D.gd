@@ -34,7 +34,7 @@ func random_position() -> Vector2:
 	return rand_pos
 
 # returns a wall border position near the middle of the wall
-func random_wall() -> Vector2:
+func random_wall() -> Dictionary:
 	var rand_side = DIRECTIONS[randi() % 4]
 	var rand_segment: Vector2 = Vector2.ZERO
 	match rand_side:
@@ -51,4 +51,4 @@ func random_wall() -> Vector2:
 			rand_segment.x = self.size.x - 1
 			rand_segment.y = rng.randfn(size.y / 2, 1)
 	var rand_wall_pos: Vector2 = position + rand_segment
-	return rand_wall_pos
+	return {"position": rand_wall_pos, "direction": rand_side}
