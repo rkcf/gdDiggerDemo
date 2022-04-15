@@ -55,7 +55,7 @@ func dig_room():
 				self.position = next_dig
 				body.position = next_dig * 32
 				dig()
-				if Globals.config["animate"]:
+				if Globals.ui_config["animate"]:
 					yield(get_tree().create_timer(self.wait_time), "timeout")
 	# set that we have completed our job
 	print("room dig job completed")

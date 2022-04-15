@@ -16,7 +16,7 @@ func _init(new_position: Vector2, new_size: Vector2):
 	self.area = Rect2(self.position, self.size)
 	
 	# Draw a rectangle around the room if this option is enabled
-	if Globals.config["draw_walls"]:
+	if Globals.ui_config["draw_walls"]:
 		var rrect = ReferenceRect.new()
 		rrect.editor_only = false
 		rrect.rect_position = position * 32

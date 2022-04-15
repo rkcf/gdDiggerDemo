@@ -2,10 +2,10 @@ class_name DiggerManager
 extends Node
 
 
-export (int) var max_width = 300 setget set_max_width
-export (int) var max_height = 150 setget set_max_height
-export (int) var cell_size = 32
-export (int) var n_generations = 20 setget set_n_generations# total number of generations of room diggers
+export (int) var max_width setget set_max_width
+export (int) var max_height setget set_max_height
+export (int) var cell_size
+export (int) var n_generations setget set_n_generations# total number of generations of room diggers
 
 
 var level_boundary: Rect2
@@ -30,12 +30,12 @@ func _ready() -> void:
 	rng.randomize()
 	# Connect to UI for config stuff
 	ui.connect("ui_config_changed", self, "_handle_ui_config_change")
-	
-	self.level_boundary = Rect2(1, 1, max_width - 2, max_height - 2)
+	load_config()
 
 # Main level generation function
 func generate_level() -> void:
 	# Spawn an initial room digger somewhere around the middle
+	self.level_boundary = Rect2(1, 1, max_width - 2, max_height - 2)
 	var startx: int = round(rng.randfn(max_width / 2, max_width / 10))
 	var starty: int = round(rng.randfn(max_height / 2, max_height / 10))
 	var start_position: Vector2 = Vector2(startx, starty)
@@ -43,7 +43,7 @@ func generate_level() -> void:
 	var generation_room: Room2D = null # The starting room for the generation
 	var rd: RoomDigger = null
 	rd = spawn_room_digger(start_position)
-	if Globals.config["animate"]:
+	if Globals.ui_config["animate"]:
 		yield(rd.live(), "completed")
 	else:
 		rd.live()
@@ -62,7 +62,7 @@ func generate_level() -> void:
 		var generation_index: int = 0
 		var next_room: Room2D = generation_room
 		while generations_left > 0:
-			if Globals.config["animate"]:
+			if Globals.ui_config["animate"]:
 				yield(spawn_generation(next_room), "completed")
 			else:
 				spawn_generation(next_room)
@@ -81,7 +81,7 @@ func spawn_generation(generation_room: Room2D):
 		var rand_wall = generation_room.random_wall()
 		if self.level_boundary.has_point(rand_wall):
 			var cd: CorridorDigger = spawn_corridor_digger(rand_wall)
-			if Globals.config["animate"]:
+			if Globals.ui_config["animate"]:
 				yield(cd.live(), "completed") # Wait until cd has died to spawn a room digger here
 			else:
 				cd.live()
@@ -89,7 +89,7 @@ func spawn_generation(generation_room: Room2D):
 			# Make sure cd.position is in level
 			if self.level_boundary.has_point(cd.position):
 				var rd: RoomDigger = spawn_room_digger(cd.position)
-				if Globals.config["animate"]:
+				if Globals.ui_config["animate"]:
 					yield(rd.live(), "completed") # Wait until the digger has died to go onto the next Corridor
 				else:
 					rd.live()
@@ -160,29 +160,21 @@ func set_max_height(value: int) -> void:
 	self.level_boundary = Rect2(1, 1, max_width - 2, max_height - 2)
 
 
+func load_config() -> void:
+	self.max_height = Globals.gen_config["level_height"]
+	self.max_width = Globals.gen_config["level_width"]
+	self.cell_size = Globals.ui_config["cell_size"]
+	self.n_generations = Globals.gen_config["n_generations"]
+
+
+func _handle_ui_config_change() -> void:
+	load_config()
+
+
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_select"): # space bar
 		reload()
 
 
-func _handle_ui_config_change() -> void:
-	# reload config
-	pass
-
-
 func _on_GenerateButton_pressed() -> void:
 	reload()
-	
-
-
-func _on_Generations_value_changed(value: float) -> void:
-	self.n_generations = round(value)
-
-
-func _on_Width_value_changed(value: float) -> void:
-	self.max_width = round(value)
-	
-
-
-func _on_Height_value_changed(value: float) -> void:
-	self.max_height = round(value)
