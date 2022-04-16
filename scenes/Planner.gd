@@ -34,8 +34,8 @@ func plot_room(position: Vector2) -> Room2D:
 	if !boundary.has_point(offset_position):
 		# try original non offset position
 		if !boundary.has_point(position):
-			return null # we can't make a room here
 			print("Planner is working in an out of bounds area!")
+			return null # we can't make a room here
 	else:
 		print("Using offset position")
 		position = offset_position

@@ -1,5 +1,9 @@
 * gdDiggerDemo
 
+
+[[./common/assets/screenshot.png]]
+
+
 An example project using digger algorithms for procedural level generation.
 
 
