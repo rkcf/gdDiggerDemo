@@ -2,10 +2,6 @@ class_name Digger
 extends Node
 
 
-
-signal job_completed
-
-
 const DIRECTIONS = [Vector2.UP, Vector2.DOWN, Vector2.LEFT, Vector2.RIGHT]
 
 

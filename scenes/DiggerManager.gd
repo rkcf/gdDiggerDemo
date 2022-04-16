@@ -75,6 +75,7 @@ func generate_level() -> void:
 		while generations_left > 0:
 			if Globals.ui_config["animate"]:
 				yield(spawn_generation(next_room), "completed")
+				print("here")
 			else:
 				spawn_generation(next_room)
 			print("Generation %s Finished" % generation_index)
@@ -119,7 +120,10 @@ func spawn_generation(generation_room: Room2D):
 		else: # We don't want to build a room here. try again if enabled
 			if Globals.digger_config["extend_corridors"]:
 				cd.life_length = Globals.digger_config["corridor_life_length"] * 2
-				cd.live()
+				if Globals.ui_config["animate"]:
+					yield(cd.live(), "completed")
+				else:
+					cd.live()
 				if planner.check_if_good_to_build(cd.position):
 					var new_room: Room2D = planner.plot_room(cd.position)
 					if new_room:

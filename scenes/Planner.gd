@@ -19,7 +19,7 @@ func _ready() -> void:
 
 func plot_room(position: Vector2) -> Room2D:
 	# Get a random width and height
-	var doorway: Vector2 = position
+	var doorway: Vector2 = Vector2(round(position.x), round(position.y))
 	var width: int
 	var height: int
 	var max_room_size: int = Globals.digger_config["max_room_size"]
@@ -77,11 +77,13 @@ func plot_room(position: Vector2) -> Room2D:
 	# Find the top left corner to store the position
 	var new_room: Room2D = Room2D.new(position, size)
 
+	print("Planned out: %s" % new_room.position)
 
 	# Check if room is still connected to corridor
 	if new_room.walls.has_point(doorway):
 		return new_room
 	else:
+		print("Reverting to original plan")
 		new_room.position = doorway # reset to the original position
 		new_room.area = Rect2(doorway, size)
 		return new_room
