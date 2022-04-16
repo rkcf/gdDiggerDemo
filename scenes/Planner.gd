@@ -24,6 +24,21 @@ func plot_room(position: Vector2) -> Room2D:
 	var max_room_size: int = Globals.digger_config["max_room_size"]
 	var min_room_size: int = Globals.digger_config["min_room_size"]
 	
+	# offset the room so we aren't always starting in top left
+	var offset_position = position
+	offset_position.x = round(position.x + rand_range(-min_room_size, min_room_size))
+	offset_position.y = round(position.y + rand_range(-min_room_size, min_room_size))
+	
+	# TODO Check if room is still connected to corridor
+	
+	# Check to see if proposed room site is in bounds
+	if !boundary.has_point(offset_position):
+		# try original non offset position
+		if !boundary.has_point(position):
+			return null # we can't make a room here
+	else:
+		position = offset_position
+
 	if Globals.digger_config["similar_sized_rooms"]: # We use a normal curve SD=2 based around the average size for this
 		var average_room_size = (max_room_size - min_room_size ) / 2
 		width = round(rng.randfn(average_room_size, 1))
@@ -32,8 +47,6 @@ func plot_room(position: Vector2) -> Room2D:
 		width = round(rand_range(min_room_size, max_room_size))
 		height = round(rand_range(min_room_size, max_room_size))
 
-	# TODO Fix this, make sure rooms are always positioned within the boundary
-#	print(position)
 	assert(boundary.has_point(position))
 	
 	# We failed to randomly pick a point in space, so we are going to step down from the max size until we find one that works
