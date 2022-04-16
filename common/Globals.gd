@@ -28,3 +28,4 @@ var digger_config: Dictionary = {
 	"avoid_overlap": true # whether we should overlap rooms when digging
 }
 
+var rooms: Array = [] # all the rooms we have

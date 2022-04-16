@@ -9,7 +9,7 @@ export (int) var n_generations # total number of generations of room diggers
 
 
 var level_boundary: Rect2
-var rooms: Array = []
+var rooms: Array
 
 var room_pick_method: int
 
@@ -36,6 +36,8 @@ func _ready() -> void:
 
 # Main level generation function
 func generate_level() -> void:
+	Globals.rooms = []
+	self.rooms = Globals.rooms
 	# Spawn an initial room digger somewhere around the middle
 	self.level_boundary = Rect2(1, 1, max_width - 2, max_height - 2)
 	
@@ -95,55 +97,41 @@ func spawn_generation(generation_room: Room2D):
 	
 	while n_corridor_diggers > 0:
 		var rand_wall: Dictionary = generation_room.random_wall()
-		if self.level_boundary.has_point(rand_wall["position"]):
-			var cd: CorridorDigger = spawn_corridor_digger(rand_wall["position"], rand_wall["direction"])
-			if Globals.ui_config["animate"]:
-				yield(cd.live(), "completed") # Wait until cd has died to spawn a room digger here
-			else:
-				cd.live()
-#			print("Done Yielding for corridor digger")
-			# Make sure cd.position is in level
-			if self.level_boundary.has_point(cd.position):
-				if check_if_good_to_build(cd.position): # This looks like a good place for a room
-					# TODO somehow shift room position so the entrance isn't always top left
-					var new_room: Room2D = planner.plot_room(cd.position)
-					if new_room:
-						add_room(new_room)
-						var rd: RoomDigger = spawn_room_digger(new_room)
-						if Globals.ui_config["animate"]:
-							yield(rd.live(), "completed") # Wait until the digger has died to go onto the next Corridor
-						else:
-							rd.live()
-						rd.destroy()
-				else: # We don't want to build a room here. try again
-					# TODO Add code to try again by making a longer corridor
+
+		var cd: CorridorDigger = spawn_corridor_digger(rand_wall["position"], rand_wall["direction"])
+
+		if Globals.ui_config["animate"]:
+			yield(cd.live(), "completed") # Wait until cd has died to spawn a room digger here
+		else:
+			cd.live()
+
+		if planner.check_if_good_to_build(cd.position): # This looks like a good place for a room
+			# TODO somehow shift room position so the entrance isn't always top left
+			var new_room: Room2D = planner.plot_room(cd.position)
+			if new_room:
+				add_room(new_room)
+				var rd: RoomDigger = spawn_room_digger(new_room)
+				if Globals.ui_config["animate"]:
+					yield(rd.live(), "completed") # Wait until the digger has died to go onto the next Corridor
+				else:
+					rd.live()
+				rd.destroy()
+		else: # We don't want to build a room here. try again
+			# TODO Add code to try again by making a longer corridor
 #					cd.life_length = Globals.digger_config["corridor_life_length"]
 #					cd.live()
-					pass
+			pass
 
 			cd.destroy()
 		
 		n_corridor_diggers -= 1
 
 
-# Check whether the room building area is free of obstructions
-func check_if_good_to_build(position: Vector2) -> bool:
-	if Globals.digger_config["avoid_overlap"]:
-		var buffer_size = Globals.digger_config["max_room_size"] # How big of an area do we want to look for rooms in
-		# Shift the position of the buffer zone up and to the left so we have the occasional overlap
-		var offset_x = position.x - buffer_size / 2
-		var offset_y = position.y - buffer_size / 2
-		var area = Rect2(Vector2(offset_x, offset_y), Vector2(buffer_size, buffer_size))
-		for room in rooms:
-			if area.intersects(room.area): # If the proposed building site intersects with a previously made room we don't build here
-				return false
-	return true
-
 
 # Add a completed room so we can manage them later
 func add_room(room: Room2D) -> void:
 #	print(room)
-	rooms.append(room)
+	Globals.rooms.append(room)
 	room_container.add_child(room)
 
 
