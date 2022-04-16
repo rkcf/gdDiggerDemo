@@ -111,3 +111,4 @@ func get_weighted_direction() -> Vector2:
 func get_random_direction() -> Vector2:
 	var new_direction: Vector2 = DIRECTIONS[randi() % 4]
 	return new_direction
+

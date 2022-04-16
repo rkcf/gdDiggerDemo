@@ -76,17 +76,15 @@ func plot_room(position: Vector2) -> Room2D:
 	var size: Vector2 = Vector2(width, height)
 	# Find the top left corner to store the position
 	var new_room: Room2D = Room2D.new(position, size)
-	
-	print(new_room.area)
-	print(doorway)
+
+
 	# Check if room is still connected to corridor
 	if new_room.walls.has_point(doorway):
-		print("f")
 		return new_room
 	else:
-		new_room.position = doorway
+		new_room.position = doorway # reset to the original position
+		new_room.area = Rect2(doorway, size)
 		return new_room
-
 
 
 # Check whether the room building area is free of obstructions

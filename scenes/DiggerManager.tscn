@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://scenes/DiggerManager.gd" type="Script" id=1]
 [ext_resource path="res://common/assets/tilemap.tres" type="TileSet" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://scenes/ParamSpinbox.gd" type="Script" id=8]
 [ext_resource path="res://scenes/ParamToggle.gd" type="Script" id=9]
 [ext_resource path="res://scenes/ParamOption.gd" type="Script" id=10]
+[ext_resource path="res://common/assets/updown.png" type="Texture" id=11]
 
 [sub_resource type="DynamicFont" id=2]
 size = 28
@@ -23,6 +24,7 @@ CheckButton/colors/font_color_hover = Color( 0.0313726, 0.0156863, 0, 1 )
 CheckButton/colors/font_color_hover_pressed = Color( 0.0313726, 0.0156863, 0, 1 )
 CheckButton/colors/font_color_pressed = Color( 0.0313726, 0.0156863, 0, 1 )
 Label/colors/font_color = Color( 0.0313726, 0.0156863, 0, 1 )
+SpinBox/icons/updown = ExtResource( 11 )
 
 [node name="DiggerManager" type="Node"]
 script = ExtResource( 1 )
