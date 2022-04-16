@@ -105,7 +105,6 @@ func spawn_generation(generation_room: Room2D):
 			yield(cd.live(), "completed") # Wait until cd has died to spawn a room digger here
 		else:
 			cd.live()
-
 		if planner.check_if_good_to_build(cd.position): # This looks like a good place for a room
 			# TODO somehow shift room position so the entrance isn't always top left
 			var new_room: Room2D = planner.plot_room(cd.position)

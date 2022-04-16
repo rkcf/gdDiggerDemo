@@ -20,3 +20,6 @@ func add_point(point: Vector2) -> void:
 # add a room we are connected to
 func add_room(room: Room2D) -> void:
 	rooms.append(room)
+
+
+	

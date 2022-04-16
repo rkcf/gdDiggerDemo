@@ -57,3 +57,10 @@ func dig_corridor() -> void:
 
 	print("corridor dig job completed")
 	emit_signal("corridor_dug")
+
+# Backfills in corridor they just dug
+func fill_corridor() -> void:
+	for point in corridor.line.points:
+		self.position = point
+		body.position = point * Globals.ui_config["cell_size"]
+		tile_map.set_cellv(point, tile_map.get_tileset().get_tiles_ids()[0], false, false, false)
