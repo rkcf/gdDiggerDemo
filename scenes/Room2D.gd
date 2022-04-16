@@ -7,6 +7,7 @@ const DIRECTIONS = [Vector2.UP, Vector2.DOWN, Vector2.LEFT, Vector2.RIGHT]
 var position: Vector2 # upper left position of room
 var size: Vector2 # (width, height) vector giving size of the room
 var area: Rect2
+var walls: Rect2
 
 var rng: RandomNumberGenerator = RandomNumberGenerator.new()
 
@@ -17,6 +18,7 @@ func _init(new_position: Vector2, new_size: Vector2):
 	self.position = new_position
 	self.size = new_size
 	self.area = Rect2(self.position, self.size)
+	self.walls = Rect2(self.position.x - 1, self.position.y - 1, self.size.x +2, self.size.y + 2)
 	
 	# Draw a rectangle around the room if this option is enabled
 	if Globals.ui_config["draw_walls"]:

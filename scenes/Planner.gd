@@ -19,6 +19,7 @@ func _ready() -> void:
 
 func plot_room(position: Vector2) -> Room2D:
 	# Get a random width and height
+	var doorway: Vector2 = position
 	var width: int
 	var height: int
 	var max_room_size: int = Globals.digger_config["max_room_size"]
@@ -26,17 +27,17 @@ func plot_room(position: Vector2) -> Room2D:
 	
 	# offset the room so we aren't always starting in top left
 	var offset_position = position
-	offset_position.x = round(position.x + rand_range(-min_room_size, min_room_size))
-	offset_position.y = round(position.y + rand_range(-min_room_size, min_room_size))
-	
-	# TODO Check if room is still connected to corridor
-	
+	offset_position.x = round(position.x + rand_range(-2, 2))
+	offset_position.y = round(position.y + rand_range(-2, 2))
+
 	# Check to see if proposed room site is in bounds
 	if !boundary.has_point(offset_position):
 		# try original non offset position
 		if !boundary.has_point(position):
 			return null # we can't make a room here
+			print("Planner is working in an out of bounds area!")
 	else:
+		print("Using offset position")
 		position = offset_position
 
 	if Globals.digger_config["similar_sized_rooms"]: # We use a normal curve SD=2 based around the average size for this
@@ -75,7 +76,17 @@ func plot_room(position: Vector2) -> Room2D:
 	var size: Vector2 = Vector2(width, height)
 	# Find the top left corner to store the position
 	var new_room: Room2D = Room2D.new(position, size)
-	return new_room
+	
+	print(new_room.area)
+	print(doorway)
+	# Check if room is still connected to corridor
+	if new_room.walls.has_point(doorway):
+		print("f")
+		return new_room
+	else:
+		new_room.position = doorway
+		return new_room
+
 
 
 # Check whether the room building area is free of obstructions
