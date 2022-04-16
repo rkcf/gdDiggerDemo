@@ -6,6 +6,7 @@ signal corridor_dug
 
 
 var corridor_width: int = 1
+var corridor: Line2D
 
 # Create a new Digger
 func spawn(starting_position: Vector2, starting_direction: Vector2, new_boundary: Rect2, new_map: TileMap) -> void:
@@ -14,7 +15,10 @@ func spawn(starting_position: Vector2, starting_direction: Vector2, new_boundary
 	body.position = starting_position * 32
 	self.boundary = new_boundary
 	self.tile_map = new_map
-	
+	self.corridor = Line2D.new()
+	if Globals.ui_config["draw_walls"]:
+		add_child(self.corridor)
+
 	# Corridor specific settings
 	self.life_length = Globals.digger_config["corridor_life_length"]
 	self.max_steps_to_turn = Globals.digger_config["corridor_max_steps_to_turn"]
@@ -42,6 +46,10 @@ func dig_corridor() -> void:
 		# See if we have already dug here
 		if tile_map.get_cellv(self.position) != tile_map.INVALID_CELL:
 			dig()
+			corridor.add_point(Vector2(
+				position.x * Globals.ui_config["cell_size"], 
+				position.y * Globals.ui_config["cell_size"]
+				))
 			if Globals.ui_config["animate"]:
 				yield(get_tree().create_timer(self.wait_time), "timeout")
 
