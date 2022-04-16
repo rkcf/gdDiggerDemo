@@ -46,7 +46,7 @@ func _handle_toggles(input: ParamToggle) -> void:
 	emit_signal("ui_config_changed")
 
 
-func _handle_options(index: int, input: ParamOption) -> void:
+func _handle_options(_index: int, input: ParamOption) -> void:
 	var dict = get_config_dict(input.config_dict)
 	dict[input.option] = input.selected
 	emit_signal("ui_config_changed")

@@ -38,10 +38,6 @@ func _ready() -> void:
 	rng.randomize()
 
 
-func spawn(starting_position: Vector2, starting_direction: Vector2, new_boundary: Rect2, new_map: TileMap) -> void:
-	pass
-
-
 # Called on the death of a digger
 func destroy() -> void:
 	self.queue_free()

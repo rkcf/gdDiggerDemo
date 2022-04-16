@@ -15,6 +15,8 @@ var room_pick_method: int
 
 var rng: RandomNumberGenerator = RandomNumberGenerator.new()
 
+var planner: Planner
+
 var room_digger = preload("res://scenes/RoomDigger.tscn")
 var corridor_digger = preload("res://scenes/CorridorDigger.tscn")
 
@@ -23,6 +25,7 @@ onready var corridors_tile_map: TileMap = $CorridorsTileMap
 onready var diggers: Node = $Diggers # Digger node container
 onready var room_container: Node = $Rooms
 onready var ui = $UI/Control/UIPanel
+
 
 
 func _ready() -> void:
@@ -35,13 +38,20 @@ func _ready() -> void:
 func generate_level() -> void:
 	# Spawn an initial room digger somewhere around the middle
 	self.level_boundary = Rect2(1, 1, max_width - 2, max_height - 2)
+	
+	# Spawn a new planner
+	planner = Planner.new(level_boundary)
+	
 	var startx: int = round(rng.randfn(max_width / 2, max_width / 10))
 	var starty: int = round(rng.randfn(max_height / 2, max_height / 10))
 	var start_position: Vector2 = Vector2(startx, starty)
 	
 	var generation_room: Room2D = null # The starting room for the generation
 	var rd: RoomDigger = null
-	rd = spawn_room_digger(start_position)
+	# Plot out a room
+	var start_room: Room2D = planner.plot_room(start_position)
+
+	rd = spawn_room_digger(start_room)
 	if Globals.ui_config["animate"]:
 		yield(rd.live(), "completed")
 	else:
@@ -96,14 +106,15 @@ func spawn_generation(generation_room: Room2D):
 			if self.level_boundary.has_point(cd.position):
 				if check_if_good_to_build(cd.position): # This looks like a good place for a room
 					# TODO somehow shift room position so the entrance isn't always top left
-					var rd: RoomDigger = spawn_room_digger(cd.position)
-					if Globals.ui_config["animate"]:
-						yield(rd.live(), "completed") # Wait until the digger has died to go onto the next Corridor
-					else:
-						rd.live()
-					if rd.room:
-						add_room(rd.room)
-					rd.destroy()
+					var new_room: Room2D = planner.plot_room(cd.position)
+					if new_room:
+						add_room(new_room)
+						var rd: RoomDigger = spawn_room_digger(new_room)
+						if Globals.ui_config["animate"]:
+							yield(rd.live(), "completed") # Wait until the digger has died to go onto the next Corridor
+						else:
+							rd.live()
+						rd.destroy()
 				else: # We don't want to build a room here. try again
 					# TODO Add code to try again by making a longer corridor
 #					cd.life_length = Globals.digger_config["corridor_life_length"]
@@ -136,10 +147,10 @@ func add_room(room: Room2D) -> void:
 	room_container.add_child(room)
 
 
-func spawn_room_digger(start_position: Vector2) -> RoomDigger:
+func spawn_room_digger(room: Room2D) -> RoomDigger:
 	var digger = room_digger.instance()
 	diggers.add_child(digger)
-	digger.spawn(start_position, Vector2.DOWN, self.level_boundary, self.rooms_tile_map)
+	digger.spawn(room, self.rooms_tile_map)
 	return digger
 
 
