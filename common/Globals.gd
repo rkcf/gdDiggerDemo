@@ -25,7 +25,8 @@ var digger_config: Dictionary = {
 	"similar_sized_rooms": false,
 	"corridor_life_length": 18,
 	"corridor_max_steps_to_turn": 14,
-	"avoid_overlap": true # whether we should overlap rooms when digging
+	"avoid_overlap": true, # whether we should overlap rooms when digging
+	"extend_corridors": false # whether we try to make a room by extending the corridor further when avoiding overlap
 }
 
 var rooms: Array = [] # all the rooms we have

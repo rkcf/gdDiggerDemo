@@ -116,11 +116,21 @@ func spawn_generation(generation_room: Room2D):
 				else:
 					rd.live()
 				rd.destroy()
-		else: # We don't want to build a room here. try again
-			# TODO Add code to try again by making a longer corridor
-#					cd.life_length = Globals.digger_config["corridor_life_length"]
-#					cd.live()
-			pass
+		else: # We don't want to build a room here. try again if enabled
+			if Globals.digger_config["extend_corridors"]:
+				cd.life_length = Globals.digger_config["corridor_life_length"] * 2
+				cd.live()
+				if planner.check_if_good_to_build(cd.position):
+					var new_room: Room2D = planner.plot_room(cd.position)
+					if new_room:
+						add_room(new_room)
+						var rd: RoomDigger = spawn_room_digger(new_room)
+						if Globals.ui_config["animate"]:
+							yield(rd.live(), "completed") # Wait until the digger has died to go onto the next Corridor
+						else:
+							rd.live()
+						rd.destroy()
+
 
 			cd.destroy()
 		

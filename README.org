@@ -22,3 +22,4 @@ MIT Licensed
 - Prune unneeded spindly hallways
 - As corridor digger tunnels around, they stop and think to themselves: is this a good place to build a room? If so they destroy themselves and spawn a room builder
 - save preset and reload previous preset when starting a new instance
+- add function for corridor digger back fill corridor
