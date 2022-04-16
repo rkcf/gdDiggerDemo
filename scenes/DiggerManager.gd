@@ -132,7 +132,7 @@ func spawn_generation(generation_room: Room2D):
 						rd.destroy()
 
 
-			cd.destroy()
+		cd.destroy()
 		
 		n_corridor_diggers -= 1
 
